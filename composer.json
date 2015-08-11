@@ -1,0 +1,43 @@
+{
+    "name": "eway/eway-rapid-php",
+    "description": "eWAY Rapid PHP library",
+    "keyword": [
+        "eway",
+        "rapid",
+        "payments",
+        "payment processing"
+    ],
+    "homepage": "https://www.eway.com.au",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "eWAY",
+            "homepage": "https://www.eway.com.au"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "ext-curl": "*",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.8.*",
+        "phpdocumentor/phpdocumentor": "~2.8",
+        "internations/http-mock": "~0.7",
+        "jeremeamia/SuperClosure": "1.0.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Eway\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Eway\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test-it": "phpunit --testsuite integration"
+    }
+}
