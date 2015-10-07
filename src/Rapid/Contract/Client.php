@@ -75,6 +75,11 @@ interface Client
     const ERROR_INVALID_CREDENTIAL = 'S9991';
 
     /**
+     * Failed connecting to eWAY - no response
+     */
+    const ERROR_CONNECTION_ERROR = 'S9992';
+
+    /**
      * Authentication error - HTTP Status code 4xx returned
      */
     const ERROR_HTTP_AUTHENTICATION_ERROR = 'S9993';

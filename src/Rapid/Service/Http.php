@@ -306,6 +306,10 @@ class Http implements HttpServiceContract
         $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         $responseBody = substr($rawResponse, $headerSize);
 
+        if ($rawResponse === false) {
+           $responseBody = curl_error($ch);
+        }
+
         $response = new Response($statusCode, $responseBody);
 
         curl_close($ch);

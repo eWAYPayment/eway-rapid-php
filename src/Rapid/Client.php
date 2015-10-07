@@ -598,6 +598,9 @@ class Client implements ClientContract
         } elseif (preg_match('/5\d\d/', $response->getStatusCode())) {
             $this->_addError(self::ERROR_HTTP_SERVER_ERROR);
             $hasRequestError = true;
+        } elseif ($response->getStatusCode() == 0) {
+            $this->_addError(self::ERROR_CONNECTION_ERROR);
+            $hasRequestError = true;
         }
 
         if ($hasRequestError) {
