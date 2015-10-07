@@ -7,7 +7,7 @@ Sign up with eWAY at:
  - New Zealand:  https://eway.io/nz/
  - UK:           https://eway.io/uk/
  - Hong Kong:    https://eway.io/hk/
- - Malayasia:    https://eway.io/my/
+ - Malaysia:     https://eway.io/my/
  - Singapore:    https://eway.io/sg/
 
 For testing, get a free eWAY Partner account: https://www.eway.com.au/developers
@@ -16,7 +16,9 @@ For testing, get a free eWAY Partner account: https://www.eway.com.au/developers
 
 This library requires PHP version 5.4.0 or greater, with the curl, json and openssl extensions.
 
-Via [Composer](https://getcomposer.org/)
+### Using Composer
+
+The eWAY PHP SDK can be install via [Composer](https://getcomposer.org/) - this is the recommended method
 
 ```bash
 $ composer require eway/eway-rapid-php
@@ -25,7 +27,19 @@ $ composer require eway/eway-rapid-php
 Then use Composer's autoload to include the library:
 
 ```php
-require('vendor/autoload.php');
+require_once 'vendor/autoload.php';
+```
+
+### Manual
+
+The eWAY PHP SDK can also be downloaded and added without Composer:
+
+1. Download the [latest zip](https://github.com/eWAYPayment/eway-rapid-php/archive/master.zip)
+2. Unzip the folder into your project - for example into a `lib` directory
+3. Include the eWAY SDK:
+
+```php 
+require_once 'lib/eway-rapid-php-master/include_eway.php';
 ```
 
 ## Usage
