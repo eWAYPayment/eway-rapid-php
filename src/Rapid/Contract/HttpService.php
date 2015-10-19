@@ -69,6 +69,11 @@ interface HttpService
     const API_CANCEL_AUTHORISATION = 'CancelAuthorisation';
 
     /**
+     * cURL hex representation of version 7.30.0
+     */
+    const CURL_NO_QUIRK_VERSION = 0x071E00;
+    
+    /**
      * @param $reference
      *
      * @return ResponseInterface

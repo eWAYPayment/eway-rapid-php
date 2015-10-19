@@ -9,7 +9,7 @@ use Eway\Rapid\Service\Http\Response;
 use InvalidArgumentException;
 
 /**
- * Class HttpService.
+ * Class Http - uses cURL to send and receive requests
  */
 class Http implements HttpServiceContract
 {
@@ -27,6 +27,14 @@ class Http implements HttpServiceContract
      * @var string
      */
     private $baseUrl;
+    
+    /**
+     * Extra proxy "Connection Established" header text
+     */
+    private static $CONNECTION_ESTABLISHED_HEADERS = array(
+        "HTTP/1.0 200 Connection established\r\n\r\n",
+        "HTTP/1.1 200 Connection established\r\n\r\n",
+    );
 
     /**
      * @param $key
@@ -304,10 +312,11 @@ class Http implements HttpServiceContract
 
         $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-        $responseBody = substr($rawResponse, $headerSize);
-
+        
         if ($rawResponse === false) {
-           $responseBody = curl_error($ch);
+            $responseBody = curl_error($ch);
+        } else {
+            $responseBody = $this->parseResponse($rawResponse, $headerSize);
         }
 
         $response = new Response($statusCode, $responseBody);
@@ -315,5 +324,44 @@ class Http implements HttpServiceContract
         curl_close($ch);
 
         return $response;
+    }
+    
+    /**
+     * Returns the HTTP body from raw response. 
+     * 
+     * @param string $rawResponse
+     * @param string $headerSize
+     * @return string
+     */
+    private function parseResponse($rawResponse, $headerSize)
+    {
+        foreach (self::$CONNECTION_ESTABLISHED_HEADERS as $established_header) {
+            if (stripos($rawResponse, $established_header) !== false) {
+                $rawResponse = str_ireplace($established_header, '', $rawResponse);
+                // Older cURL versions did not account for proxy headers in the 
+                // header size
+                if (!$this->needsCurlProxyFix()) {
+                    $headerSize -= strlen($established_header);
+                }
+                break;
+            }
+        }
+        
+        $responseBody = substr($rawResponse, $headerSize);
+        
+        return $responseBody;
+    }
+    
+    /**
+     * Detect versions of cURL which report incorrect header lengths when
+     * using a proxy
+     *
+     * @return boolean
+     */
+    private function needsCurlProxyFix()
+    {
+        $ver = curl_version();
+        $versionNum = $ver['version_number'];
+        return $versionNum < self::CURL_NO_QUIRK_VERSION;
     }
 }
