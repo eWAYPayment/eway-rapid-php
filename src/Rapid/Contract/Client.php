@@ -28,7 +28,7 @@ interface Client
     /**
      * Rapid SDK Version.
      */
-    const VERSION = '1.0.0';
+    const VERSION = '1.1.1';
 
     /**
      * Sandbox mode.
@@ -204,6 +204,25 @@ interface Client
      * @return CreateCustomerResponse
      */
     public function createCustomer($apiMethod, $customer);
+
+    /**
+     * This Method is used to update a existing token customer for the merchant in their eWAY account. Card, email, and
+     * address changes can be made.
+     *
+     * Like the CreateCustomer, a PaymentMethod is specified which determines what method will be used to capture the
+     * card that will be saved with the customer. Depending on the PaymentMethod the customer may be updated
+     * immediately, or it may be pending (waiting for Card Details to be supplied by the Responsive Shared Page, or
+     * Transparent Redirect).
+     *
+     * The SDK will use the PaymentMethod parameter to determine what type of transaction to create as per the
+     * transaction type mapping table in the Create (Transaction) API Method spec (above).
+     *
+     * @param string         $apiMethod
+     * @param Customer|array $customer
+     *
+     * @return CreateCustomerResponse
+     */
+    public function updateCustomer($apiMethod, $customer);
 
     /**
      * This method is used to return the details of a Token Customer. This includes masked Card information for displaying in a UI to a user.

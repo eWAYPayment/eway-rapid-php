@@ -175,7 +175,7 @@ class ServiceTest extends AbstractHttpTest
         ];
         $body = '{"AuthorisationCode":"123456","ResponseCode":null,"ResponseMessage":"A2000","TransactionID":12345678,"TransactionStatus":true,"Verification":null,"Customer":{"CardDetails":{"Number":null,"Name":null,"ExpiryMonth":null,"ExpiryYear":null,"StartMonth":null,"StartYear":null,"IssueNumber":null},"TokenCustomerID":null,"Reference":null,"Title":null,"FirstName":"","LastName":"","CompanyName":null,"JobDescription":null,"Street1":"","Street2":null,"City":"","State":"","PostalCode":"","Country":"","Email":"","Phone":"","Mobile":null,"Comments":null,"Fax":null,"Url":null},"Refund":{"TransactionID":"12345679","TotalAmount":1000,"InvoiceNumber":null,"InvoiceDescription":"","InvoiceReference":"","CurrencyCode":null},"Errors":""}';
         $uri = $this->service->getUri(
-            [HttpServiceContract::API_TRANSACTION_REFUND, 
+            [HttpServiceContract::API_TRANSACTION_REFUND,
             ['TransactionID' => $transactionId]],
             false
         );

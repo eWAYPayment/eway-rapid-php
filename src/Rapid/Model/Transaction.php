@@ -41,6 +41,7 @@ use Eway\Rapid\Model\Support\HasVerificationTrait;
  * @property string          $Method
  * @property string          $InvoiceNumber
  * @property string          $InvoiceDescription
+ * @property string          $TokenCustomerID  
  */
 class Transaction extends AbstractModel
 {

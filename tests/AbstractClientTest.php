@@ -59,6 +59,9 @@ abstract class AbstractClientTest extends AbstractTest
     protected function assertCustomer($customer, $response, $cardWithinCustomer = false)
     {
         foreach ($customer as $key => $value) {
+            if (in_array($key, ['RedirectUrl', 'CancelUrl'])) {
+                continue;
+            }
             if ('CardDetails' === $key) {
                 $this->assertCardDetails($value, $response, $cardWithinCustomer);
             } else {

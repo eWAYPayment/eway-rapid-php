@@ -48,15 +48,8 @@ class CreateCustomerTest extends AbstractClientTest
             'FirstName' => 'John',
             'LastName' => 'Smith',
             'Country' => 'au',
-            'CardDetails' => [
-                'Name' => 'John Smith',
-                'Number' => '4444333322221111',
-                'ExpiryMonth' => '12',
-                'ExpiryYear' => '25',
-                'CVN' => '123',
-            ],
-            "RedirectUrl" => "http://www.eway.com.au",
-            "CancelUrl" => "http://www.eway.com.au",
+            'RedirectUrl' => 'http://www.eway.com.au',
+            'CancelUrl' => 'http://www.eway.com.au',
         ];
 
         $response = $this->client->createCustomer(ApiMethod::RESPONSIVE_SHARED, $customer);
@@ -75,14 +68,7 @@ class CreateCustomerTest extends AbstractClientTest
             'FirstName' => 'John',
             'LastName' => 'Smith',
             'Country' => 'au',
-            'CardDetails' => [
-                'Name' => 'John Smith',
-                'Number' => '4444333322221111',
-                'ExpiryMonth' => '12',
-                'ExpiryYear' => '25',
-                'CVN' => '123',
-            ],
-            "RedirectUrl" => "http://www.eway.com.au",
+            'RedirectUrl' => 'http://www.eway.com.au',
         ];
 
         $response = $this->client->createCustomer(ApiMethod::TRANSPARENT_REDIRECT, $customer);
