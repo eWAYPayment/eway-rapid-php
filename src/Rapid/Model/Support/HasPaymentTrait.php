@@ -2,8 +2,6 @@
 
 namespace Eway\Rapid\Model\Support;
 
-use Eway\Rapid\Model\Payment;
-
 /**
  * Trait HasPaymentTrait.
  *
