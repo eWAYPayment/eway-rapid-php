@@ -1,5 +1,9 @@
 # eWAY Rapid PHP Library
 
+[![Latest Version on Packagist][ico-version]][link-packagist]
+[![Software License][ico-license]](LICENSE.md)
+[![Build Status][ico-travis]][link-travis]
+
 A PHP library to integrate with eWAY's Rapid Payment API.
 
 Sign up with eWAY at:
@@ -92,3 +96,10 @@ $ composer test
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+
+[ico-version]: https://img.shields.io/packagist/v/eway/eway-rapid-php.svg?style=flat-square
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/eWAYPayment/eway-rapid-php/master.svg?style=flat-square
+
+[link-packagist]: https://packagist.org/packages/eway/eway-rapid-php
+[link-travis]: https://travis-ci.org/eWAYPayment/eway-rapid-php

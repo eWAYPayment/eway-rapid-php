@@ -91,7 +91,7 @@ class QueryTransactionTest extends AbstractClientTest
         ];
         $payment = [
             'TotalAmount' => 1000,
-            'InvoiceNumber' => 'invoice_number_'.time(),
+            'InvoiceNumber' => 'invoice_number_'.rand(),
         ];
         $transaction = [
             'Customer' => $customer,
@@ -127,7 +127,7 @@ class QueryTransactionTest extends AbstractClientTest
         ];
         $payment = [
             'TotalAmount' => 1000,
-            'InvoiceReference' => time(),
+            'InvoiceReference' => rand(),
         ];
         $transaction = [
             'Customer' => $customer,
