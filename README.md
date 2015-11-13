@@ -72,7 +72,8 @@ $transaction = [
     ],
     'Payment' => [
         'TotalAmount' => 1000,
-    ]
+    ],
+    'TransactionType' => \Eway\Rapid\Enum\TransactionType::PURCHASE,
 ];
 
 $response = $client->createTransaction(\Eway\Rapid\Enum\ApiMethod::DIRECT, $transaction);
