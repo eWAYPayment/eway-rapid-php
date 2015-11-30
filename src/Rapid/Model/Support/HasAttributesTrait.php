@@ -42,8 +42,6 @@ trait HasAttributesTrait
         foreach ($attributes as $key => $value) {
             if ($this->isFillable($key)) {
                 $this->setAttribute($key, $value);
-            } else {
-                throw new MassAssignmentException(sprintf("Unexpected attribute '%s' for class %s", $key, $class));
             }
         }
 
