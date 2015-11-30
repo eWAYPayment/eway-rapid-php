@@ -318,7 +318,7 @@ class ClientTest extends AbstractClientTest
             ['sAnDbOx', Client::ENDPOINT_SANDBOX],
             ['production', Client::ENDPOINT_PRODUCTION],
             ['pRoDuCtIoN', Client::ENDPOINT_PRODUCTION],
-            ['http://www.google.com', 'http://www.google.com'],
+            ['https://www.google.com', 'https://www.google.com'],
         ];
     }
 

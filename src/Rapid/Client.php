@@ -605,7 +605,7 @@ class Client implements ClientContract
         if (empty($this->apiKey) || empty($this->apiPassword)) {
             $this->_addError(self::ERROR_INVALID_CREDENTIAL);
         }
-        if (empty($this->endpoint)) {
+        if (empty($this->endpoint) || strpos($this->endpoint, 'https') !== 0) {
             $this->_addError(self::ERROR_INVALID_ENDPOINT);
         }
         if (count($this->getErrors()) > 0) {
