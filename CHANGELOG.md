@@ -2,6 +2,10 @@
 
 All notable changes will be documented in this file
 
+## 1.1.3
+
+ - Added `SaveCustomer` flag to Transactions to create a token when a transaction is completed
+
 ## 1.1.2
 
  - Removed exception thrown when Rapid field is not in SDK Model

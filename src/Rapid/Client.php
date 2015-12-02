@@ -288,7 +288,8 @@ class Client implements ClientContract
 
             case ApiMethod::RESPONSIVE_SHARED:
                 if ($transaction->Capture) {
-                    if (isset($transaction->Customer) && isset($transaction->Customer->TokenCustomerID)) {
+                    if ((isset($transaction->Customer) && isset($transaction->Customer->TokenCustomerID))
+                        || (isset($transaction->SaveCustomer) && $transaction->SaveCustomer == true)) {
                         $transaction->Method = PaymentMethod::TOKEN_PAYMENT;
                     } else {
                         $transaction->Method = PaymentMethod::PROCESS_PAYMENT;
@@ -301,7 +302,8 @@ class Client implements ClientContract
 
             case ApiMethod::TRANSPARENT_REDIRECT:
                 if ($transaction->Capture) {
-                    if (isset($transaction->Customer) && isset($transaction->Customer->TokenCustomerID)) {
+                    if ((isset($transaction->Customer) && isset($transaction->Customer->TokenCustomerID))
+                        || (isset($transaction->SaveCustomer) && $transaction->SaveCustomer == true)) {
                         $transaction->Method = PaymentMethod::TOKEN_PAYMENT;
                     } else {
                         $transaction->Method = PaymentMethod::PROCESS_PAYMENT;

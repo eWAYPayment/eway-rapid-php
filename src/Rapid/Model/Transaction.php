@@ -17,6 +17,8 @@ use Eway\Rapid\Model\Support\HasVerificationTrait;
  * @property string          $TransactionType    What type of transaction this is (Purchase, MOTO,etc)
  * @property bool            $Capture            Set to true to create a regular transaction with immediate capture.
  *           Set to false to create an Authorisation transaction that can be used in a subsequent transaction.
+ * @property bool            $SaveCustomer       Set to true to create a token for a customer when a transaction is
+ *           complete. 
  * @property Customer        $Customer           Customer details (name address token etc)
  * @property ShippingAddress $ShippingAddress    (optional) Shipping Address, name etc for the product ordered with
  *           this transaction
@@ -57,6 +59,7 @@ class Transaction extends AbstractModel
     protected $fillable = [
         'TransactionType',
         'Capture',
+        'SaveCustomer',
         'Customer',
         // Customer again
         'CustomerIP',
