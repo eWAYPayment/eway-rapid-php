@@ -69,6 +69,11 @@ interface HttpService
     const API_CANCEL_AUTHORISATION = 'CancelAuthorisation';
 
     /**
+     * API Settlement Search Endpoint
+     */
+    const API_SETTLEMENT_SEARCH = 'Search/Settlement';
+
+    /**
      * @param $reference
      *
      * @return ResponseInterface
@@ -153,6 +158,13 @@ interface HttpService
      * @return ResponseInterface
      */
     public function postCancelAuthorisation($data);
+
+    /**
+     * @param $query
+     *
+     * @return ResponseInterface
+     */
+    public function getSettlementSearch($query);
 
     /**
      * @param string $key

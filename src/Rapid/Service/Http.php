@@ -173,6 +173,16 @@ class Http implements HttpServiceContract
     }
 
     /**
+     * @param $query
+     *
+     * @return ResponseInterface
+     */
+    public function getSettlementSearch($query)
+    {
+        return $this->getRequest(self::API_SETTLEMENT_SEARCH, $query);
+    }
+
+    /**
      * @param      $uri
      * @param bool $withBaseUrl
      *
@@ -261,9 +271,9 @@ class Http implements HttpServiceContract
      *
      * @return ResponseInterface
      */
-    private function getRequest($url)
+    private function getRequest($url, $query = [])
     {
-        return $this->request('GET', $url);
+        return $this->request('GET', $url, $query);
     }
 
     /**
@@ -297,6 +307,11 @@ class Http implements HttpServiceContract
         $agent = sprintf("%s %s", Client::NAME, Client::VERSION);
 
         $ch = curl_init();
+
+        if (strtoupper($method) === 'GET' && !empty($data)) {
+            $queryString = http_build_query($data);
+            $uri .= '?'.$queryString;
+        }
 
         $options = [
             CURLOPT_URL => $uri,

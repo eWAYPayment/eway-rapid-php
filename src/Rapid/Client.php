@@ -20,6 +20,7 @@ use Eway\Rapid\Model\Response\QueryAccessCodeResponse;
 use Eway\Rapid\Model\Response\QueryCustomerResponse;
 use Eway\Rapid\Model\Response\QueryTransactionResponse;
 use Eway\Rapid\Model\Response\RefundResponse;
+use Eway\Rapid\Model\Response\SettlementSearchResponse;
 use Eway\Rapid\Model\Transaction;
 use Eway\Rapid\Service\Http;
 use Eway\Rapid\Validator\ClassValidator;
@@ -231,6 +232,14 @@ class Client implements ClientContract
     public function queryAccessCode($accessCode)
     {
         return $this->invoke(QueryAccessCodeResponse::getClass());
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function settlementSearch($query)
+    {
+        return $this->invoke(SettlementSearchResponse::getClass());
     }
 
     #endregion
@@ -501,6 +510,17 @@ class Client implements ClientContract
     private function doQueryAccessCode($accessCode)
     {
         return $this->getHttpService()->getAccessCode($accessCode);
+    }
+
+    /**
+     * @param $query
+     *
+     * @return ResponseInterface
+     */
+    private function doSettlementSearch($query)
+    {
+        $search = ClassValidator::getInstance('Eway\Rapid\Model\SettlementSearch', $query);
+        return $this->getHttpService()->getSettlementSearch($search->toArray());
     }
 
     #endregion

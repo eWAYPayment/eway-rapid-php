@@ -2,6 +2,11 @@
 
 All notable changes will be documented in this file
 
+## 1.2.0
+
+ - Added support for Settlement Search
+ - Now PSR2 compliant (added `composer phpcs` command to check)
+
 ## 1.1.3
 
  - Added `SaveCustomer` flag to Transactions to create a token when a transaction is completed

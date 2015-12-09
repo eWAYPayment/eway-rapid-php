@@ -365,6 +365,32 @@ class ServiceTest extends AbstractHttpTest
         $this->assertSame($body, $response->getBody());
     }
 
+    public function testGetSettlementSearch()
+    {
+        $search = [
+            'ReportMode' => 'Both',
+            'SettlementDate' => '2015-02-02',
+        ];
+        $body = '{"SettlementSummaries":[{"SettlementID":"53e78b14-ac2c-4b1b-a099-a12c6d5f30bc","Currency":"36","CurrencyCode":"AUD","TotalCredit":97100,"TotalDebit":320,"TotalBalance":96780,"BalancePerCardType":[{"CardType":"VI","NumberOfTransactions":14,"Credit":97100,"Debit":320,"Balance":96780}]}],"SettlementTransactions":[{"SettlementID":"53e78b14-ac2c-4b1b-a099-a12c6d5f30bc","CurrencyCardTypeTransactionID":"36:VI:11258912","eWAYCustomerID":91312168,"Currency":"36","CurrencyCode":"AUD","TransactionID":11258912,"TxnReference":"0000000011258912","CardType":"VI","Amount":100,"TransactionType":"1","TransactionDateTime":"\/Date(1422795600000)\/","SettlementDateTime":"\/Date(1422795600000)\/"},{"SettlementID":"53e78b14-ac2c-4b1b-a099-a12c6d5f30bc","CurrencyCardTypeTransactionID":"36:VI:11259196","eWAYCustomerID":91312168,"Currency":"36","CurrencyCode":"AUD","TransactionID":11259196,"TxnReference":"0000000011259196","CardType":"VI","Amount":1000,"TransactionType":"1","TransactionDateTime":"\/Date(1422795600000)\/","SettlementDateTime":"\/Date(1422795600000)\/"},{"SettlementID":"53e78b14-ac2c-4b1b-a099-a12c6d5f30bc","CurrencyCardTypeTransactionID":"36:VI:11259550","eWAYCustomerID":91312168,"Currency":"36","CurrencyCode":"AUD","TransactionID":11259550,"TxnReference":"0000000011259550","CardType":"VI","Amount":1000,"TransactionType":"1","TransactionDateTime":"\/Date(1422795600000)\/","SettlementDateTime":"\/Date(1422795600000)\/"},{"SettlementID":"53e78b14-ac2c-4b1b-a099-a12c6d5f30bc","CurrencyCardTypeTransactionID":"36:VI:11259580","eWAYCustomerID":91312168,"Currency":"36","CurrencyCode":"AUD","TransactionID":11259580,"TxnReference":"0000000011259580","CardType":"VI","Amount":1000,"TransactionType":"1","TransactionDateTime":"\/Date(1422795600000)\/","SettlementDateTime":"\/Date(1422795600000)\/"},{"SettlementID":"53e78b14-ac2c-4b1b-a099-a12c6d5f30bc","CurrencyCardTypeTransactionID":"36:VI:11259679","eWAYCustomerID":91312168,"Currency":"36","CurrencyCode":"AUD","TransactionID":11259679,"TxnReference":"0000000011259679","CardType":"VI","Amount":10,"TransactionType":"4","TransactionDateTime":"\/Date(1422795600000)\/","SettlementDateTime":"\/Date(1422795600000)\/"},{"SettlementID":"53e78b14-ac2c-4b1b-a099-a12c6d5f30bc","CurrencyCardTypeTransactionID":"36:VI:11259690","eWAYCustomerID":91312168,"Currency":"36","CurrencyCode":"AUD","TransactionID":11259690,"TxnReference":"0000000011259690","CardType":"VI","Amount":10,"TransactionType":"4","TransactionDateTime":"\/Date(1422795600000)\/","SettlementDateTime":"\/Date(1422795600000)\/"},{"SettlementID":"53e78b14-ac2c-4b1b-a099-a12c6d5f30bc","CurrencyCardTypeTransactionID":"36:VI:11259691","eWAYCustomerID":91312168,"Currency":"36","CurrencyCode":"AUD","TransactionID":11259691,"TxnReference":"0000000011259691","CardType":"VI","Amount":100,"TransactionType":"4","TransactionDateTime":"\/Date(1422795600000)\/","SettlementDateTime":"\/Date(1422795600000)\/"},{"SettlementID":"53e78b14-ac2c-4b1b-a099-a12c6d5f30bc","CurrencyCardTypeTransactionID":"36:VI:11259710","eWAYCustomerID":91312168,"Currency":"36","CurrencyCode":"AUD","TransactionID":11259710,"TxnReference":"0000000011259710","CardType":"VI","Amount":100,"TransactionType":"4","TransactionDateTime":"\/Date(1422795600000)\/","SettlementDateTime":"\/Date(1422795600000)\/"},{"SettlementID":"53e78b14-ac2c-4b1b-a099-a12c6d5f30bc","CurrencyCardTypeTransactionID":"36:VI:11259714","eWAYCustomerID":91312168,"Currency":"36","CurrencyCode":"AUD","TransactionID":11259714,"TxnReference":"0000000011259714","CardType":"VI","Amount":100,"TransactionType":"4","TransactionDateTime":"\/Date(1422795600000)\/","SettlementDateTime":"\/Date(1422795600000)\/"},{"SettlementID":"53e78b14-ac2c-4b1b-a099-a12c6d5f30bc","CurrencyCardTypeTransactionID":"36:VI:11260829","eWAYCustomerID":91312168,"Currency":"36","CurrencyCode":"AUD","TransactionID":11260829,"TxnReference":"0000000011260829","CardType":"VI","Amount":90000,"TransactionType":"1","TransactionDateTime":"\/Date(1422795600000)\/","SettlementDateTime":"\/Date(1422795600000)\/"},{"SettlementID":"53e78b14-ac2c-4b1b-a099-a12c6d5f30bc","CurrencyCardTypeTransactionID":"36:VI:11260840","eWAYCustomerID":91312168,"Currency":"36","CurrencyCode":"AUD","TransactionID":11260840,"TxnReference":"0000000011260840","CardType":"VI","Amount":1000,"TransactionType":"8","TransactionDateTime":"\/Date(1422795600000)\/","SettlementDateTime":"\/Date(1422795600000)\/"},{"SettlementID":"53e78b14-ac2c-4b1b-a099-a12c6d5f30bc","CurrencyCardTypeTransactionID":"36:VI:11260888","eWAYCustomerID":91312168,"Currency":"36","CurrencyCode":"AUD","TransactionID":11260888,"TxnReference":"0000000011260888","CardType":"VI","Amount":1000,"TransactionType":"8","TransactionDateTime":"\/Date(1422795600000)\/","SettlementDateTime":"\/Date(1422795600000)\/"},{"SettlementID":"53e78b14-ac2c-4b1b-a099-a12c6d5f30bc","CurrencyCardTypeTransactionID":"36:VI:11261122","eWAYCustomerID":91312168,"Currency":"36","CurrencyCode":"AUD","TransactionID":11261122,"TxnReference":"0000000011261122","CardType":"VI","Amount":1000,"TransactionType":"1","TransactionDateTime":"\/Date(1422795600000)\/","SettlementDateTime":"\/Date(1422795600000)\/"},{"SettlementID":"53e78b14-ac2c-4b1b-a099-a12c6d5f30bc","CurrencyCardTypeTransactionID":"36:VI:11261127","eWAYCustomerID":91312168,"Currency":"36","CurrencyCode":"AUD","TransactionID":11261127,"TxnReference":"0000000011261127","CardType":"VI","Amount":1000,"TransactionType":"1","TransactionDateTime":"\/Date(1422795600000)\/","SettlementDateTime":"\/Date(1422795600000)\/"}],"Errors":""}';
+        $uri = $this->service->getUri(HttpServiceContract::API_SETTLEMENT_SEARCH, false);
+
+        $uri .= '?'.http_build_query($search);
+
+        $this->http->mock
+            ->when()
+            ->methodIs('GET')
+            ->pathIs('/'.$uri)
+            ->then()
+            ->body($body)
+            ->end();
+        $this->http->setUp();
+
+        $response = $this->service->getSettlementSearch($search);
+        $this->assertInstanceOf(Response::getClass(), $response);
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertSame($body, $response->getBody());
+    }
+
     /**
      * @dataProvider provideUri
      *

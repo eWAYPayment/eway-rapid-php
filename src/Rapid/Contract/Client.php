@@ -28,7 +28,7 @@ interface Client
     /**
      * Rapid SDK Version.
      */
-    const VERSION = '1.1.1';
+    const VERSION = '1.2.0';
 
     /**
      * Sandbox mode.
@@ -252,4 +252,13 @@ interface Client
      * @return RefundResponse
      */
     public function cancelTransaction($transactionId);
+
+    /**
+     * Search settlements
+     *
+     * @param SettlementSearch|array $query Settlement Search query
+     *
+     * @return SettlementSearchResponse
+     */
+    public function settlementSearch($query);
 }
