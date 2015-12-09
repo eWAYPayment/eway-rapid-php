@@ -57,9 +57,9 @@ abstract class Rapid
      */
     public static function getMessage($errorCode, $language = 'en')
     {
-        self::_initMessages();
+        self::initMessages();
 
-        $messagesByLanguage = self::_getMessagesByLanguage($language);
+        $messagesByLanguage = self::getMessagesByLanguage($language);
         if (!array_key_exists($errorCode, $messagesByLanguage)) {
             return $errorCode;
         }
@@ -70,7 +70,7 @@ abstract class Rapid
     /**
      * @param string $language
      */
-    private static function _tryLoadingMessageFile($language)
+    private static function tryLoadingMessageFile($language)
     {
         $language = strtolower($language);
         $file = __DIR__.'/../resource/lang/'.$language.'.ini';
@@ -81,7 +81,7 @@ abstract class Rapid
 
     /**
      */
-    private static function _initMessages()
+    private static function initMessages()
     {
         if (null === self::$messages) {
             self::$messages = [];
@@ -93,18 +93,18 @@ abstract class Rapid
      *
      * @return array
      */
-    private static function _getMessagesByLanguage($language)
+    private static function getMessagesByLanguage($language)
     {
         $messages = [];
 
         if (!array_key_exists($language, self::$messages)) {
-            self::_tryLoadingMessageFile($language);
+            self::tryLoadingMessageFile($language);
         }
 
         if (array_key_exists($language, self::$messages)) {
             $messages = self::$messages[$language];
         } else {
-            self::_tryLoadingMessageFile('en');
+            self::tryLoadingMessageFile('en');
             if (array_key_exists('en', self::$messages)) {
                 $messages = self::$messages['en'];
             }

@@ -141,9 +141,11 @@ interface Client
      * Depending on the PaymentMethod parameter specified, the transaction may be created immediately,
      * or it may be pending (waiting for Card Details to be supplied via the Responsive Shared Page, or
      * Transparent Redirect).
-     * If the 'Capture' flag on the Transaction is true then the funds for the Transaction will be debited immediately from
-     * the cardholder (default behaviour). If the 'Capture' flag is false then an Authorisation is created instead - authorisation
-     * is not available for NZ and UK merchants.
+     *
+     * If the 'Capture' flag on the Transaction is true then the funds for the Transaction
+     * will be debited immediately from the cardholder (default behaviour).
+     * If the 'Capture' flag is false then an Authorisation is created instead.
+     * Authorisation is not available for NZ and UK merchants.
      *
      * @param string            $apiMethod
      * @param Transaction|array $transaction
@@ -157,8 +159,9 @@ interface Client
      * It's primarily of use for PaymentMethods TransparentRedirect and ResponsiveShared,
      * to interrogate Rapid once the transaction is complete.
      *
-     * It is also of use in situations where anti-fraud rules have triggered. Once the transaction has been reviewed then
-     * the status will change, and in some cases the transaction ID as well.
+     * It is also of use in situations where anti-fraud rules have triggered.
+     * Once the transaction has been reviewed then the status will change, and
+     * in some cases the transaction ID as well.
      *
      * @param string $reference AccessCode or TransactionID
      *
@@ -167,10 +170,8 @@ interface Client
     public function queryTransaction($reference);
 
     /**
-     * This method is used to fetch transaction information once a transaction has been completed using the InvoiceNumber.
-     *
-     * It can be used to determine the transaction result in the event a response wasn’t received for some reason from the original request (and
-     * therefore a Transaction ID isn’t available).
+     * This method is used to fetch transaction information once a transaction
+     * has been completed using the InvoiceNumber.
      *
      * @param string $invoiceNumber
      *
@@ -179,10 +180,8 @@ interface Client
     public function queryInvoiceNumber($invoiceNumber);
 
     /**
-     * This method is used to fetch transaction information once a transaction has been completed using the InvoiceReference.
-     *
-     * It can be used to determine the transaction result in the event a response wasn’t received for some reason from the original request (and
-     * therefore a Transaction ID isn’t available).
+     * This method is used to fetch transaction information once a transaction has
+     * been completed using the InvoiceReference.
      *
      * @param string $invoiceReference
      *
@@ -191,12 +190,14 @@ interface Client
     public function queryInvoiceReference($invoiceReference);
 
     /**
-     * This Method is used to create a token customer for the merchant in their eWAY account. The token customer can be used to create MOTO or
-     * Recurring transactions at a later time.
+     * This Method is used to create a token customer for the merchant in their eWAY account.
+     * The token customer can be used to create MOTO or Recurring transactions at a later time.
      *
-     * Like the CreateTransaction, a PaymentMethod is specified which determines what method will be used to capture the card that will be saved with
-     * the customer. Depending on the PaymentMethod the customer may be created immediately, or it may be pending (waiting for Card Details to be
-     * supplied by the Responsive Shared Page, or Transparent Redirect).
+     * Like the CreateTransaction, a PaymentMethod is specified which determines what method
+     * will be used to capture the card that will be saved with the customer.
+     * Depending on the PaymentMethod the customer may be created immediately, or it may be
+     * pending (waiting for Card Details to be supplied by the Responsive Shared Page,
+     * or Transparent Redirect).
      *
      * @param string         $apiMethod
      * @param Customer|array $customer
@@ -206,8 +207,8 @@ interface Client
     public function createCustomer($apiMethod, $customer);
 
     /**
-     * This Method is used to update a existing token customer for the merchant in their eWAY account. Card, email, and
-     * address changes can be made.
+     * This Method is used to update a existing token customer for the merchant in their eWAY account.
+     * Card, email and address changes can be made.
      *
      * Like the CreateCustomer, a PaymentMethod is specified which determines what method will be used to capture the
      * card that will be saved with the customer. Depending on the PaymentMethod the customer may be updated
@@ -225,7 +226,8 @@ interface Client
     public function updateCustomer($apiMethod, $customer);
 
     /**
-     * This method is used to return the details of a Token Customer. This includes masked Card information for displaying in a UI to a user.
+     * This method is used to return the details of a Token Customer. This includes
+     * masked Card information for displaying in a UI to a user.
      *
      * @param string $tokenCustomerId Token Customer ID
      *

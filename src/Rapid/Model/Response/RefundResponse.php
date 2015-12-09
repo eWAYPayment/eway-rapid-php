@@ -10,8 +10,8 @@ use Eway\Rapid\Model\Support\HasVerificationTrait;
 use Eway\Rapid\Model\Verification;
 
 /**
- * This Response is returned by the Refund Method. It wraps the TransactionStatus and the Echoed back Refund Type with the standard error fields
- * required by an API return type.
+ * This Response is returned by the Refund Method. It wraps the TransactionStatus and
+ * the Echoed back Refund Type with the standard error fields required by an API return type.
  *
  * @property string       AuthorisationCode
  * @property Customer     Customer

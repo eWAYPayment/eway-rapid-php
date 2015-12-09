@@ -30,7 +30,7 @@ class Item extends AbstractModel
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->_calculateTotal();
+        $this->calculateTotal();
     }
 
 
@@ -54,7 +54,7 @@ class Item extends AbstractModel
     /**
      * @return $this
      */
-    private function _calculateTotal()
+    private function calculateTotal()
     {
         if (isset($this->Quantity) && isset($this->UnitCost)) {
             if (isset($this->Tax)) {

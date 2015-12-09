@@ -10,8 +10,8 @@ namespace Eway\Rapid\Model;
  * @property string $Email       Result of email verification by card processor
  * @property string $Mobile      Result of Mobile verification by card processor
  * @property string $Phone       Result of phone verification by card processor
- * @property string $BeagleEmail Result of email verification from responsive shared page (if processed with a PaymentMethod of RESPONSIVE_SHARED)
- * @property string $BeaglePhone Result of phone number verification from responsive shared page (if processed with a PaymentMethod of RESPONSIVE_SHARED)
+ * @property string $BeagleEmail Result of email verification from responsive shared page
+ * @property string $BeaglePhone Result of phone number verification from responsive shared page
  */
 class Verification extends AbstractModel
 {

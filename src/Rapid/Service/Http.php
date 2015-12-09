@@ -47,7 +47,10 @@ class Http implements HttpServiceContract
      */
     public function getTransaction($reference)
     {
-        return $this->_getRequest([self::API_TRANSACTION_QUERY, ['Reference' => $reference]]);
+        return $this->getRequest([
+            self::API_TRANSACTION_QUERY,
+            ['Reference' => $reference]
+        ]);
     }
 
     /**
@@ -57,7 +60,10 @@ class Http implements HttpServiceContract
      */
     public function getTransactionInvoiceNumber($invoiceNumber)
     {
-        return $this->_getRequest([self::API_TRANSACTION_INVOICE_NUMBER_QUERY, ['InvoiceNumber' => $invoiceNumber]]);
+        return $this->getRequest([
+            self::API_TRANSACTION_INVOICE_NUMBER_QUERY,
+            ['InvoiceNumber' => $invoiceNumber]
+        ]);
     }
 
     /**
@@ -67,7 +73,10 @@ class Http implements HttpServiceContract
      */
     public function getTransactionInvoiceReference($invoiceReference)
     {
-        return $this->_getRequest([self::API_TRANSACTION_INVOICE_REFERENCE_QUERY, ['InvoiceReference' => $invoiceReference]]);
+        return $this->getRequest([
+            self::API_TRANSACTION_INVOICE_REFERENCE_QUERY,
+            ['InvoiceReference' => $invoiceReference]
+        ]);
     }
 
     /**
@@ -77,7 +86,7 @@ class Http implements HttpServiceContract
      */
     public function postTransaction($data)
     {
-        return $this->_postRequest(self::API_TRANSACTION, $data);
+        return $this->postRequest(self::API_TRANSACTION, $data);
     }
 
     /**
@@ -88,7 +97,13 @@ class Http implements HttpServiceContract
      */
     public function postTransactionRefund($transactionId, $data)
     {
-        return $this->_postRequest([self::API_TRANSACTION_REFUND, ['TransactionID' => $transactionId]], $data);
+        return $this->postRequest(
+            [
+                self::API_TRANSACTION_REFUND,
+                ['TransactionID' => $transactionId]
+            ],
+            $data
+        );
     }
 
     /**
@@ -98,7 +113,7 @@ class Http implements HttpServiceContract
      */
     public function postAccessCodeShared($data)
     {
-        return $this->_postRequest(self::API_ACCESS_CODE_SHARED, $data);
+        return $this->postRequest(self::API_ACCESS_CODE_SHARED, $data);
     }
 
     /**
@@ -108,7 +123,10 @@ class Http implements HttpServiceContract
      */
     public function getAccessCode($accessCode)
     {
-        return $this->_getRequest([self::API_ACCESS_CODE_QUERY, ['AccessCode' => $accessCode]]);
+        return $this->getRequest([
+            self::API_ACCESS_CODE_QUERY,
+            ['AccessCode' => $accessCode]
+        ]);
     }
 
     /**
@@ -118,7 +136,7 @@ class Http implements HttpServiceContract
      */
     public function postAccessCode($data)
     {
-        return $this->_postRequest(self::API_ACCESS_CODE, $data);
+        return $this->postRequest(self::API_ACCESS_CODE, $data);
     }
 
     /**
@@ -128,7 +146,10 @@ class Http implements HttpServiceContract
      */
     public function getCustomer($tokenCustomerId)
     {
-        return $this->_getRequest([self::API_CUSTOMER_QUERY, ['TokenCustomerID' => $tokenCustomerId]]);
+        return $this->getRequest([
+            self::API_CUSTOMER_QUERY,
+            ['TokenCustomerID' => $tokenCustomerId]
+        ]);
     }
 
     /**
@@ -138,7 +159,7 @@ class Http implements HttpServiceContract
      */
     public function postCapturePayment($data)
     {
-        return $this->_postRequest(self::API_CAPTURE_PAYMENT, $data);
+        return $this->postRequest(self::API_CAPTURE_PAYMENT, $data);
     }
 
     /**
@@ -148,7 +169,7 @@ class Http implements HttpServiceContract
      */
     public function postCancelAuthorisation($data)
     {
-        return $this->_postRequest(self::API_CANCEL_AUTHORISATION, $data);
+        return $this->postRequest(self::API_CANCEL_AUTHORISATION, $data);
     }
 
     /**
@@ -240,9 +261,9 @@ class Http implements HttpServiceContract
      *
      * @return ResponseInterface
      */
-    private function _getRequest($url)
+    private function getRequest($url)
     {
-        return $this->_request('GET', $url);
+        return $this->request('GET', $url);
     }
 
     /**
@@ -251,9 +272,9 @@ class Http implements HttpServiceContract
      *
      * @return ResponseInterface
      */
-    private function _postRequest($url, $data)
+    private function postRequest($url, $data)
     {
-        return $this->_request('POST', $url, $data);
+        return $this->request('POST', $url, $data);
     }
 
     /**
@@ -263,7 +284,7 @@ class Http implements HttpServiceContract
      *
      * @return ResponseInterface
      */
-    private function _request($method, $uri, $data = [])
+    private function request($method, $uri, $data = [])
     {
         $uri = $this->getUri($uri);
 
@@ -307,7 +328,7 @@ class Http implements HttpServiceContract
         $responseBody = substr($rawResponse, $headerSize);
 
         if ($rawResponse === false) {
-           $responseBody = curl_error($ch);
+            $responseBody = curl_error($ch);
         }
 
         $response = new Response($statusCode, $responseBody);

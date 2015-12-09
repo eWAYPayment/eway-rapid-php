@@ -24,6 +24,7 @@ use Eway\Rapid\Model\Transaction;
 use Eway\Rapid\Service\Http;
 use Eway\Rapid\Validator\ClassValidator;
 use Eway\Rapid\Validator\EnumValidator;
+
 use InvalidArgumentException;
 
 /**
@@ -129,8 +130,8 @@ class Client implements ClientContract
 
         $this->endpoint = $endpoint;
         $this->getHttpService()->setBaseUrl($endpoint);
-        $this->_emptyErrors();
-        $this->_validate();
+        $this->emptyErrors();
+        $this->validate();
 
         return $this;
     }
@@ -144,8 +145,8 @@ class Client implements ClientContract
         $this->apiPassword = $apiPassword;
         $this->getHttpService()->setKey($apiKey);
         $this->getHttpService()->setPassword($apiPassword);
-        $this->_emptyErrors();
-        $this->_validate();
+        $this->emptyErrors();
+        $this->validate();
 
         return $this;
     }
@@ -155,7 +156,7 @@ class Client implements ClientContract
      */
     public function createTransaction($apiMethod, $transaction)
     {
-        return $this->_invoke(CreateTransactionResponse::getClass());
+        return $this->invoke(CreateTransactionResponse::getClass());
     }
 
     /**
@@ -163,7 +164,7 @@ class Client implements ClientContract
      */
     public function queryTransaction($reference)
     {
-        return $this->_invoke(QueryTransactionResponse::getClass());
+        return $this->invoke(QueryTransactionResponse::getClass());
     }
 
     /**
@@ -171,7 +172,7 @@ class Client implements ClientContract
      */
     public function queryInvoiceNumber($invoiceNumber)
     {
-        return $this->_invoke(QueryTransactionResponse::getClass());
+        return $this->invoke(QueryTransactionResponse::getClass());
     }
 
     /**
@@ -179,7 +180,7 @@ class Client implements ClientContract
      */
     public function queryInvoiceReference($invoiceReference)
     {
-        return $this->_invoke(QueryTransactionResponse::getClass());
+        return $this->invoke(QueryTransactionResponse::getClass());
     }
 
     /**
@@ -187,7 +188,7 @@ class Client implements ClientContract
      */
     public function createCustomer($apiMethod, $customer)
     {
-        return $this->_invoke(CreateCustomerResponse::getClass());
+        return $this->invoke(CreateCustomerResponse::getClass());
     }
 
     /**
@@ -195,7 +196,7 @@ class Client implements ClientContract
      */
     public function updateCustomer($apiMethod, $customer)
     {
-        return $this->_invoke(CreateCustomerResponse::getClass());
+        return $this->invoke(CreateCustomerResponse::getClass());
     }
 
     /**
@@ -203,7 +204,7 @@ class Client implements ClientContract
      */
     public function queryCustomer($tokenCustomerId)
     {
-        return $this->_invoke(QueryCustomerResponse::getClass());
+        return $this->invoke(QueryCustomerResponse::getClass());
     }
 
     /**
@@ -211,7 +212,7 @@ class Client implements ClientContract
      */
     public function refund($refund)
     {
-        return $this->_invoke(RefundResponse::getClass());
+        return $this->invoke(RefundResponse::getClass());
     }
 
     /**
@@ -219,7 +220,7 @@ class Client implements ClientContract
      */
     public function cancelTransaction($transactionId)
     {
-        return $this->_invoke(RefundResponse::getClass());
+        return $this->invoke(RefundResponse::getClass());
     }
 
     /**
@@ -229,7 +230,7 @@ class Client implements ClientContract
      */
     public function queryAccessCode($accessCode)
     {
-        return $this->_invoke(QueryAccessCodeResponse::getClass());
+        return $this->invoke(QueryAccessCodeResponse::getClass());
     }
 
     #endregion
@@ -244,8 +245,8 @@ class Client implements ClientContract
     public function setHttpService(HttpServiceContract $httpService)
     {
         $this->httpService = $httpService;
-        $this->_emptyErrors();
-        $this->_validate();
+        $this->emptyErrors();
+        $this->validate();
 
         return $this;
     }
@@ -268,7 +269,7 @@ class Client implements ClientContract
      *
      * @return ResponseInterface
      */
-    private function _createTransaction($apiMethod, $transaction)
+    private function doCreateTransaction($apiMethod, $transaction)
     {
         $apiMethod = EnumValidator::validate('Eway\Rapid\Enum\ApiMethod', 'ApiMethod', $apiMethod);
 
@@ -329,7 +330,7 @@ class Client implements ClientContract
      *
      * @return ResponseInterface
      */
-    private function _queryTransaction($reference)
+    private function doQueryTransaction($reference)
     {
         return $this->getHttpService()->getTransaction($reference);
     }
@@ -339,7 +340,7 @@ class Client implements ClientContract
      *
      * @return ResponseInterface
      */
-    private function _queryInvoiceNumber($invoiceNumber)
+    private function doQueryInvoiceNumber($invoiceNumber)
     {
         return $this->getHttpService()->getTransactionInvoiceNumber($invoiceNumber);
     }
@@ -350,7 +351,7 @@ class Client implements ClientContract
      *
      * @return ResponseInterface
      */
-    private function _queryInvoiceReference($invoiceReference)
+    private function doQueryInvoiceReference($invoiceReference)
     {
         return $this->getHttpService()->getTransactionInvoiceReference($invoiceReference);
     }
@@ -361,7 +362,7 @@ class Client implements ClientContract
      *
      * @return ResponseInterface
      */
-    private function _createCustomer($apiMethod, $customer)
+    private function doCreateCustomer($apiMethod, $customer)
     {
         /** @var Customer $customer */
         $customer = ClassValidator::getInstance('Eway\Rapid\Model\Customer', $customer);
@@ -405,13 +406,13 @@ class Client implements ClientContract
     }
 
     /**
-     * 
+     *
      * @param $apiMethod
      * @param type $customer
      * @return ResponseInterface
      * @throws MethodNotImplementedException
      */
-    private function _updateCustomer($apiMethod, $customer)
+    private function doUpdateCustomer($apiMethod, $customer)
     {
         /** @var Customer $customer */
         $customer = ClassValidator::getInstance('Eway\Rapid\Model\Customer', $customer);
@@ -457,7 +458,7 @@ class Client implements ClientContract
      *
      * @return ResponseInterface
      */
-    private function _queryCustomer($tokenCustomerId)
+    private function doQueryCustomer($tokenCustomerId)
     {
         return $this->getHttpService()->getCustomer($tokenCustomerId);
     }
@@ -467,7 +468,7 @@ class Client implements ClientContract
      *
      * @return ResponseInterface
      */
-    private function _refund($refund)
+    private function doRefund($refund)
     {
         /** @var Refund $refund */
         $refund = ClassValidator::getInstance('Eway\Rapid\Model\Refund', $refund);
@@ -480,7 +481,7 @@ class Client implements ClientContract
      *
      * @return ResponseInterface
      */
-    private function _cancelTransaction($transactionId)
+    private function doCancelTransaction($transactionId)
     {
         $refund = [
             'TransactionID' => $transactionId,
@@ -497,7 +498,7 @@ class Client implements ClientContract
      *
      * @return ResponseInterface
      */
-    private function _queryAccessCode($accessCode)
+    private function doQueryAccessCode($accessCode)
     {
         return $this->getHttpService()->getAccessCode($accessCode);
     }
@@ -511,31 +512,31 @@ class Client implements ClientContract
      *
      * @return AbstractResponse
      */
-    private function _invoke($responseClass)
+    private function invoke($responseClass)
     {
         if (!$this->isValid()) {
-            return $this->_getErrorResponse($responseClass);
+            return $this->getErrorResponse($responseClass);
         }
 
         try {
-            $caller = $this->_getCaller();
-            $response = call_user_func_array([$this, '_'.$caller['function']], $caller['args']);
+            $caller = $this->getCaller();
+            $response = call_user_func_array([$this, 'do'.ucfirst($caller['function'])], $caller['args']);
 
-            return $this->_wrapResponse($responseClass, $response);
+            return $this->wrapResponse($responseClass, $response);
         } catch (InvalidArgumentException $e) {
-            $this->_addError(self::ERROR_INVALID_ARGUMENT);
+            $this->addError(self::ERROR_INVALID_ARGUMENT);
         } catch (MassAssignmentException $e) {
-            $this->_addError(self::ERROR_INVALID_ARGUMENT);
+            $this->addError(self::ERROR_INVALID_ARGUMENT);
         }
 
 
-        return $this->_getErrorResponse($responseClass);
+        return $this->getErrorResponse($responseClass);
     }
 
     /**
      * @return mixed
      */
-    private function _getCaller()
+    private function getCaller()
     {
         $callers = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 3);
 
@@ -550,20 +551,20 @@ class Client implements ClientContract
      *
      * @return mixed
      */
-    private function _wrapResponse($class, $httpResponse = null)
+    private function wrapResponse($class, $httpResponse = null)
     {
         $data = [];
         try {
             if (isset($httpResponse)) {
-                $this->_checkResponse($httpResponse);
+                $this->checkResponse($httpResponse);
                 $body = (string)$httpResponse->getBody();
-                if (!$this->_isJson($body)) {
-                    $this->_addError(self::ERROR_INVALID_JSON);
+                if (!$this->isJson($body)) {
+                    $this->addError(self::ERROR_INVALID_JSON);
                 } else {
                     $data = json_decode($body, true);
                 }
             } else {
-                $this->_addError(self::ERROR_EMPTY_RESPONSE);
+                $this->addError(self::ERROR_EMPTY_RESPONSE);
             }
         } catch (RequestException $e) {
             // An error code is already provided by _checkResponse
@@ -583,7 +584,7 @@ class Client implements ClientContract
      *
      * @return bool
      */
-    private function _isJson($string)
+    private function isJson($string)
     {
         return is_string($string) && is_object(json_decode($string)) && (json_last_error() == JSON_ERROR_NONE);
     }
@@ -591,7 +592,7 @@ class Client implements ClientContract
     /**
      * @return $this
      */
-    private function _emptyErrors()
+    private function emptyErrors()
     {
         $this->errors = [];
 
@@ -601,14 +602,14 @@ class Client implements ClientContract
     /**
      * @return $this
      */
-    private function _validate()
+    private function validate()
     {
         $this->isValid = true;
         if (empty($this->apiKey) || empty($this->apiPassword)) {
-            $this->_addError(self::ERROR_INVALID_CREDENTIAL);
+            $this->addError(self::ERROR_INVALID_CREDENTIAL);
         }
         if (empty($this->endpoint) || strpos($this->endpoint, 'https') !== 0) {
-            $this->_addError(self::ERROR_INVALID_ENDPOINT);
+            $this->addError(self::ERROR_INVALID_ENDPOINT);
         }
         if (count($this->getErrors()) > 0) {
             $this->isValid = false;
@@ -622,7 +623,7 @@ class Client implements ClientContract
      *
      * @return $this
      */
-    private function _addError($errorCode)
+    private function addError($errorCode)
     {
         $this->isValid = false;
         $this->errors[] = $errorCode;
@@ -635,7 +636,7 @@ class Client implements ClientContract
      *
      * @return mixed
      */
-    private function _getErrorResponse($responseClass)
+    private function getErrorResponse($responseClass)
     {
         $data = ['Errors' => implode(',', $this->getErrors())];
 
@@ -647,17 +648,17 @@ class Client implements ClientContract
      *
      * @throws RequestException
      */
-    private function _checkResponse($response)
+    private function checkResponse($response)
     {
         $hasRequestError = false;
         if (preg_match('/4\d\d/', $response->getStatusCode())) {
-            $this->_addError(self::ERROR_HTTP_AUTHENTICATION_ERROR);
+            $this->addError(self::ERROR_HTTP_AUTHENTICATION_ERROR);
             $hasRequestError = true;
         } elseif (preg_match('/5\d\d/', $response->getStatusCode())) {
-            $this->_addError(self::ERROR_HTTP_SERVER_ERROR);
+            $this->addError(self::ERROR_HTTP_SERVER_ERROR);
             $hasRequestError = true;
         } elseif ($response->getStatusCode() == 0) {
-            $this->_addError(self::ERROR_CONNECTION_ERROR);
+            $this->addError(self::ERROR_CONNECTION_ERROR);
             $hasRequestError = true;
         }
 
