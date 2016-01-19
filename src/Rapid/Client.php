@@ -381,7 +381,7 @@ class Client implements ClientContract
         $transaction = [
             'Customer' => $customer->toArray(),
             'Method' => PaymentMethod::CREATE_TOKEN_CUSTOMER,
-            'TransactionType' => TransactionType::PURCHASE,
+            'TransactionType' => TransactionType::MOTO,
         ];
         if (isset($customer->RedirectUrl)) {
             $transaction['RedirectUrl'] = $customer->RedirectUrl;
@@ -432,7 +432,7 @@ class Client implements ClientContract
             'Customer' => $customer->toArray(),
             'Payment' => ['TotalAmount' => 0],
             'Method' => PaymentMethod::UPDATE_TOKEN_CUSTOMER,
-            'TransactionType' => TransactionType::PURCHASE,
+            'TransactionType' => TransactionType::MOTO,
         ];
 
         if (isset($customer->RedirectUrl)) {

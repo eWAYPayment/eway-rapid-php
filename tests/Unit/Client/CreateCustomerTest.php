@@ -38,7 +38,7 @@ class CreateCustomerTest extends AbstractClientTest
         $transaction = [
             'Customer' => $customer,
             'Method' => PaymentMethod::CREATE_TOKEN_CUSTOMER,
-            'TransactionType' => TransactionType::PURCHASE,
+            'TransactionType' => TransactionType::MOTO,
         ];
 
         $mockTransaction = $transaction;
@@ -50,7 +50,7 @@ class CreateCustomerTest extends AbstractClientTest
             'ResponseMessage' => 'A2000',
             'TransactionID' => null,
             'TransactionStatus' => false,
-            'TransactionType' => 'Purchase',
+            'TransactionType' => 'MOTO',
             'BeagleScore' => null,
             'Verification' => [
                 'CVN' => 0,
@@ -143,7 +143,7 @@ class CreateCustomerTest extends AbstractClientTest
         $transaction = [
             'Customer' => $customer,
             'Method' => PaymentMethod::CREATE_TOKEN_CUSTOMER,
-            'TransactionType' => TransactionType::PURCHASE,
+            'TransactionType' => TransactionType::MOTO,
             'RedirectUrl' => $customer['RedirectUrl'],
             'CancelUrl' => $customer['CancelUrl'],
             'Payment' => [
@@ -241,7 +241,7 @@ class CreateCustomerTest extends AbstractClientTest
         $transaction = [
             'Customer' => $customer,
             'Method' => PaymentMethod::CREATE_TOKEN_CUSTOMER,
-            'TransactionType' => TransactionType::PURCHASE,
+            'TransactionType' => TransactionType::MOTO,
             'RedirectUrl' => $customer['RedirectUrl'],
             'Payment' => [
                 'TotalAmount' => 0,
