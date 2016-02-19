@@ -8,6 +8,9 @@ php:
 
 matrix:
     fast_finish: true
+    include:
+     - php: hhvm
+       script: phpunit --testsuite integration
 
 cache:
     directories:
