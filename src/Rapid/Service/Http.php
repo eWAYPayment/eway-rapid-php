@@ -47,6 +47,10 @@ class Http implements HttpServiceContract
      */
     public function getTransaction($reference)
     {
+        if (empty($reference)) {
+            throw new InvalidArgumentException();
+        }
+
         return $this->getRequest([
             self::API_TRANSACTION_QUERY,
             ['Reference' => $reference]
@@ -60,6 +64,10 @@ class Http implements HttpServiceContract
      */
     public function getTransactionInvoiceNumber($invoiceNumber)
     {
+        if (empty($invoiceNumber)) {
+            throw new InvalidArgumentException();
+        }
+
         return $this->getRequest([
             self::API_TRANSACTION_INVOICE_NUMBER_QUERY,
             ['InvoiceNumber' => $invoiceNumber]
@@ -73,6 +81,10 @@ class Http implements HttpServiceContract
      */
     public function getTransactionInvoiceReference($invoiceReference)
     {
+        if (empty($invoiceReference)) {
+            throw new InvalidArgumentException();
+        }
+
         return $this->getRequest([
             self::API_TRANSACTION_INVOICE_REFERENCE_QUERY,
             ['InvoiceReference' => $invoiceReference]
@@ -123,6 +135,10 @@ class Http implements HttpServiceContract
      */
     public function getAccessCode($accessCode)
     {
+        if (empty($accessCode)) {
+            throw new InvalidArgumentException();
+        }
+
         return $this->getRequest([
             self::API_ACCESS_CODE_QUERY,
             ['AccessCode' => $accessCode]
@@ -146,6 +162,10 @@ class Http implements HttpServiceContract
      */
     public function getCustomer($tokenCustomerId)
     {
+        if (empty($tokenCustomerId)) {
+            throw new InvalidArgumentException();
+        }
+
         return $this->getRequest([
             self::API_CUSTOMER_QUERY,
             ['TokenCustomerID' => $tokenCustomerId]

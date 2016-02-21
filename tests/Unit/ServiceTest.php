@@ -74,6 +74,15 @@ class ServiceTest extends AbstractHttpTest
         $this->assertSame($body, $response->getBody());
     }
 
+    public function testInvalidTransactionId()
+    {
+        $reference = '';
+
+        $this->setExpectedException('InvalidArgumentException');
+
+        $response = $this->service->getTransaction($reference);
+    }
+
     public function testGetTransactionInvoiceNumber()
     {
         $invoiceNumber = 'invoice_number_1234567890';
