@@ -728,7 +728,7 @@ class Client implements ClientContract
             $this->log('error', "Gateway error - HTTP " . $response->getStatusCode());
             $this->addError(self::ERROR_HTTP_SERVER_ERROR);
             $hasRequestError = true;
-        } elseif (!empty($response->getError())) {
+        } elseif ($response->getError()) {
             $this->log('error', "Connection error: " . $response->getError());
             $this->addError(self::ERROR_CONNECTION_ERROR);
             $hasRequestError = true;
