@@ -8,6 +8,7 @@ use Eway\Rapid\Contract\HttpService as HttpServiceContract;
 use Eway\Rapid\Enum\ApiMethod;
 use Eway\Rapid\Enum\PaymentMethod;
 use Eway\Rapid\Enum\TransactionType;
+use Eway\Rapid\Enum\LogLevel;
 use Eway\Rapid\Exception\MassAssignmentException;
 use Eway\Rapid\Exception\MethodNotImplementedException;
 use Eway\Rapid\Exception\RequestException;
@@ -52,10 +53,8 @@ class Client implements ClientContract
     private $apiPassword;
 
     /**
-     * Possible values ("Production", "Sandbox", or a URL) Production and sandbox
+     * Possible values ("Production", "Sandbox", or a URL) "Production" and "Sandbox"
      * will default to the Global Rapid API Endpoints.
-     *
-     * use \Eway\Rapid\Client::MODE_SANDBOX or \Eway\Rapid\Client::MODE_PRODUCTION
      *
      * @var string
      */
@@ -81,12 +80,21 @@ class Client implements ClientContract
     private $httpService;
 
     /**
+     * @var Psr\Log\LoggerInterface
+     */
+    private $logger;
+
+    /**
      * @param string $apiKey
      * @param string $apiPassword
      * @param string $endpoint
+     * @param Psr\Log\LoggerInterface $logger PSR-3 logger
      */
-    public function __construct($apiKey, $apiPassword, $endpoint)
+    public function __construct($apiKey, $apiPassword, $endpoint, $logger = null)
     {
+        if (isset($logger)) {
+            $this->setLogger($logger);
+        }
         $this->setHttpService(new Http());
         $this->setCredential($apiKey, $apiPassword);
         $this->setEndpoint($endpoint);
@@ -131,8 +139,7 @@ class Client implements ClientContract
 
         $this->endpoint = $endpoint;
         $this->getHttpService()->setBaseUrl($endpoint);
-        $this->emptyErrors();
-        $this->validate();
+        $this->validateEndpoint();
 
         return $this;
     }
@@ -146,8 +153,17 @@ class Client implements ClientContract
         $this->apiPassword = $apiPassword;
         $this->getHttpService()->setKey($apiKey);
         $this->getHttpService()->setPassword($apiPassword);
-        $this->emptyErrors();
-        $this->validate();
+        $this->validateCredentials();
+
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setLogger($logger)
+    {
+        $this->logger = $logger;
 
         return $this;
     }
@@ -254,8 +270,6 @@ class Client implements ClientContract
     public function setHttpService(HttpServiceContract $httpService)
     {
         $this->httpService = $httpService;
-        $this->emptyErrors();
-        $this->validate();
 
         return $this;
     }
@@ -579,15 +593,17 @@ class Client implements ClientContract
                 $this->checkResponse($httpResponse);
                 $body = (string)$httpResponse->getBody();
                 if (!$this->isJson($body)) {
+                    $this->log('error', "Response is not valid JSON");
                     $this->addError(self::ERROR_INVALID_JSON);
                 } else {
                     $data = json_decode($body, true);
                 }
             } else {
+                $this->log('error', "Response from gateway is empty");
                 $this->addError(self::ERROR_EMPTY_RESPONSE);
             }
         } catch (RequestException $e) {
-            // An error code is already provided by _checkResponse
+            // An error code is already provided by checkResponse
         }
 
         /** @var AbstractResponse $response */
@@ -620,19 +636,40 @@ class Client implements ClientContract
     }
 
     /**
+     *
      * @return $this
      */
-    private function validate()
+    public function validateCredentials()
     {
-        $this->isValid = true;
+        $this->removeError(self::ERROR_INVALID_CREDENTIAL);
         if (empty($this->apiKey) || empty($this->apiPassword)) {
-            $this->addError(self::ERROR_INVALID_CREDENTIAL);
+            $this->log('error', "Missing API key or password");
+            $this->addError(self::ERROR_INVALID_CREDENTIAL, false);
         }
-        if (empty($this->endpoint) || strpos($this->endpoint, 'https') !== 0) {
-            $this->addError(self::ERROR_INVALID_ENDPOINT);
+
+        if (empty($this->errors)) {
+            $this->isValid = true;
         }
-        if (count($this->getErrors()) > 0) {
-            $this->isValid = false;
+
+        return $this;
+    }
+
+    /**
+     *
+     * @return $this
+     */
+    public function validateEndpoint()
+    {
+        $this->removeError(self::ERROR_INVALID_ENDPOINT);
+        if (empty($this->endpoint)
+                || strpos($this->endpoint, 'https') !== 0
+                || substr($this->endpoint, -1) != '/') {
+            $this->log('error', "Missing or invalid endpoint");
+            $this->addError(self::ERROR_INVALID_ENDPOINT, false);
+        }
+
+        if (empty($this->errors)) {
+            $this->isValid = true;
         }
 
         return $this;
@@ -643,10 +680,22 @@ class Client implements ClientContract
      *
      * @return $this
      */
-    private function addError($errorCode)
+    private function addError($errorCode, $valid = true)
     {
-        $this->isValid = false;
+        $this->isValid = $valid;
         $this->errors[] = $errorCode;
+
+        return $this;
+    }
+
+    /**
+     * @param string $errorCode
+     *
+     * @return $this
+     */
+    private function removeError($errorCode)
+    {
+        $this->errors = array_diff($this->errors, [$errorCode]);
 
         return $this;
     }
@@ -672,18 +721,33 @@ class Client implements ClientContract
     {
         $hasRequestError = false;
         if (preg_match('/4\d\d/', $response->getStatusCode())) {
-            $this->addError(self::ERROR_HTTP_AUTHENTICATION_ERROR);
+            $this->log('error', "Invalid API key or password");
+            $this->addError(self::ERROR_HTTP_AUTHENTICATION_ERROR, false);
             $hasRequestError = true;
         } elseif (preg_match('/5\d\d/', $response->getStatusCode())) {
+            $this->log('error', "Gateway error - HTTP " . $response->getStatusCode());
             $this->addError(self::ERROR_HTTP_SERVER_ERROR);
             $hasRequestError = true;
-        } elseif ($response->getStatusCode() == 0) {
+        } elseif (!empty($response->getError())) {
+            $this->log('error', "Connection error: " . $response->getError());
             $this->addError(self::ERROR_CONNECTION_ERROR);
             $hasRequestError = true;
         }
 
         if ($hasRequestError) {
             throw new RequestException(sprintf("Last HTTP response status code: %s", $response->getStatusCode()));
+        }
+    }
+
+    /**
+     *
+     * @param string $level
+     * @param string $message
+     */
+    private function log($level, $message)
+    {
+        if (isset($this->logger) && LogLevel::isValidValue($level)) {
+            $this->logger->$level($message);
         }
     }
 

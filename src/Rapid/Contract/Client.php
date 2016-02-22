@@ -28,7 +28,7 @@ interface Client
     /**
      * Rapid SDK Version.
      */
-    const VERSION = '1.2.1';
+    const VERSION = '1.2.2';
 
     /**
      * Sandbox mode.
@@ -134,6 +134,15 @@ interface Client
      * @return $this
      */
     public function setCredential($apiKey, $apiPassword);
+
+    /**
+     * Sets the PSR-3 compliant logger
+     *
+     * @param Psr\Log\LoggerInterface $logger
+     *
+     * @return $this
+     */
+    public function setLogger($logger);
 
     /**
      * This Method is used to create a transaction for the merchant in their eWAY account.

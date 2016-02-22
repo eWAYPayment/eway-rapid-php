@@ -19,10 +19,11 @@ class Response implements ResponseInterface
      * @param int    $status Status code for the response, if any.
      * @param string $body   Response body.
      */
-    public function __construct($status = 200, $body = null)
+    public function __construct($status = 200, $body = null, $error = null)
     {
         $this->statusCode = (int)$status;
         $this->body = $body;
+        $this->error = $error;
     }
 
     public function getBody()
@@ -33,5 +34,10 @@ class Response implements ResponseInterface
     public function getStatusCode()
     {
         return $this->statusCode;
+    }
+
+    public function getError()
+    {
+        return $this->error;
     }
 }

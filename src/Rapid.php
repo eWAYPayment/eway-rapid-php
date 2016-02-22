@@ -16,7 +16,7 @@ use Eway\Rapid\Contract\Client as ClientContract;
  * <code>
  * $apiKey = 'YOUR-API-KEY';
  * $apiPassword = 'YOUR-API-PASSWORD';
- * $apiEndpoint = \Eway\Rapid\Contract::MODE_SANDBOX;
+ * $apiEndpoint = 'Sandbox';
  * $client = \Eway\Rapid::createClient($apiKey, $apiPassword, $apiEndpoint);
  * </code>
  *
@@ -31,19 +31,19 @@ abstract class Rapid
     private static $messages = null;
 
     /**
-     * Static method to create a new Rapid SDK Client object configured to communicate with a specific instance of the
-     * Rapid API. In some languages it may be appropriate to use a constructor with parameters instead of a static
-     * method.
+     * Static method to create a new Rapid Client object configured to communicate with a specific instance of the
+     * Rapid API.
      *
      * @param string $apiKey eWAY Rapid API key
      * @param string $apiPassword eWAY Rapid API password
-     * @param string $endpoint  eWAY Rapid API endpoint
+     * @param string $endpoint  eWAY Rapid API endpoint - one of 'Sandbox' or 'Production'
+     * @param Psr\Log\LoggerInterface $logger PSR-3 logger
      *
      * @return ClientContract an eWAY Rapid Client
      */
-    public static function createClient($apiKey, $apiPassword, $endpoint = ClientContract::MODE_SANDBOX)
+    public static function createClient($apiKey, $apiPassword, $endpoint = ClientContract::MODE_SANDBOX, $logger = null)
     {
-        return new Client($apiKey, $apiPassword, $endpoint);
+        return new Client($apiKey, $apiPassword, $endpoint, $logger);
     }
 
     /**

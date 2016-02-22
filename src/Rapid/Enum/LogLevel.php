@@ -3,13 +3,18 @@
 namespace Eway\Rapid\Enum;
 
 /**
- * Class ApiMethod.
+ * Class LogLevel.
+ *
+ * PSR-3 log levels
  */
-abstract class ApiMethod extends AbstractEnum
+abstract class LogLevel extends AbstractEnum
 {
-    const DIRECT = 'Direct';
-    const RESPONSIVE_SHARED = 'ResponsiveShared';
-    const TRANSPARENT_REDIRECT = 'TransparentRedirect';
-    const WALLET = 'Wallet';
-    const AUTHORISATION = 'Authorisation';
+    const EMERGENCY = 'emergency';
+    const ALERT     = 'alert';
+    const CRITICAL  = 'critical';
+    const ERROR     = 'error';
+    const WARNING   = 'warning';
+    const NOTICE    = 'notice';
+    const INFO      = 'info';
+    const DEBUG     = 'debug';
 }

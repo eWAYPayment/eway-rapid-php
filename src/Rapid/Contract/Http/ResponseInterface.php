@@ -23,4 +23,11 @@ interface ResponseInterface
      * @return int Status code.
      */
     public function getStatusCode();
+
+    /**
+     * Gets the error message if one occurred
+     *
+     * @return string
+     */
+    public function getError();
 }

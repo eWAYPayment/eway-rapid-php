@@ -3,7 +3,6 @@
 namespace Eway\Rapid\Model\Support;
 
 use Eway\Rapid\Contract\Arrayable;
-use Eway\Rapid\Exception\MassAssignmentException;
 
 trait HasAttributesTrait
 {

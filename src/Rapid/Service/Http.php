@@ -368,13 +368,16 @@ class Http implements HttpServiceContract
 
         $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-        $responseBody = $this->parseResponse($rawResponse, $headerSize);
 
-        if ($rawResponse === false) {
-            $responseBody = curl_error($ch);
+        if (curl_errno($ch)) {
+            $responseError = curl_error($ch);
+            $responseBody = '';
+        } else {
+            $responseError = '';
+            $responseBody = $this->parseResponse($rawResponse, $headerSize);
         }
 
-        $response = new Response($statusCode, $responseBody);
+        $response = new Response($statusCode, $responseBody, $responseError);
 
         curl_close($ch);
 

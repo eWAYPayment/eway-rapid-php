@@ -2,6 +2,16 @@
 
 All notable changes will be documented in this file
 
+## 1.2.2
+
+ - Added support for a PSR-3 logger to log errors
+ - Very basic input validation for some functions
+ - Added handling of extra HTTP headers from proxies
+
+## 1.2.1
+
+ - Changed create and update customer to use MOTO for TransactionType to support not sending the CVN
+
 ## 1.2.0
 
  - Added support for Settlement Search
