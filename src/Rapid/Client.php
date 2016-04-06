@@ -61,6 +61,14 @@ class Client implements ClientContract
     private $endpoint;
 
     /**
+     * The eWAY Rapid API version to be used.
+     *
+     *
+     * @var string
+     */
+    private $version;
+
+    /**
      * True if the Client has a valid API Key, Password and Endpoint Set.
      *
      * @var bool
@@ -140,6 +148,17 @@ class Client implements ClientContract
         $this->endpoint = $endpoint;
         $this->getHttpService()->setBaseUrl($endpoint);
         $this->validateEndpoint();
+
+        return $this;
+    }
+
+    /**
+      * @inheritdoc
+      */
+    public function setVersion($version)
+    {
+        $this->version = $version;
+        $this->getHttpService()->setVersion($version);
 
         return $this;
     }

@@ -45,10 +45,23 @@ abstract class AbstractClientTest extends AbstractTest
         }
     }
 
+    /**
+     * @return string
+     */
+    protected function getVersion()
+    {
+        if (getenv('EWAY_API_VERSION')) {
+            return getenv('EWAY_API_VERSION');
+        } else {
+            return '';
+        }
+    }
+
     protected function setup()
     {
         parent::setUp();
         $this->client = Rapid::createClient($this->getApiKey(), $this->getApiPassword());
+        $this->client->setVersion($this->getVersion());
     }
 
     /**

@@ -42,6 +42,7 @@ use Eway\Rapid\Model\Verification;
  * @property string       TransactionType   The transaction type that this transaction was processed under.
  *                                          One of: Purchase, MOTO, Recurring
  * @property Verification Verification
+ * @property string       AmexECEncryptedData (v40+ only) A token used to configure AMEX Express Checkout
  */
 class CreateTransactionResponse extends AbstractResponse
 {
@@ -64,5 +65,6 @@ class CreateTransactionResponse extends AbstractResponse
         'TransactionStatus',
         'TransactionType',
         'Verification',
+        'AmexECEncryptedData',
     ];
 }

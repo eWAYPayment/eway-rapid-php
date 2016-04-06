@@ -60,7 +60,7 @@ class ClientTest extends AbstractClientTest
 
     public function testInvokeInvalidData()
     {
-        $response = $this->client->createTransaction(ApiMethod::DIRECT, ['bar' => 'baz']);
+        $response = $this->client->createTransaction(ApiMethod::DIRECT, ['TransactionType' => 'baz']);
 
         $this->assertInstanceOf(CreateTransactionResponse::getClass(), $response);
         $this->assertTrue(is_array($response->getErrors()));

@@ -44,6 +44,18 @@ use Eway\Rapid\Model\Support\HasVerificationTrait;
  * @property string          $InvoiceNumber
  * @property string          $InvoiceDescription
  * @property string          $TokenCustomerID
+ * @property string          $TransactionDateTime (v40+ query response only) The date and time the transaction took
+ *                                                  place
+ * @property boolean         $TransactionCaptured (v40+ query response only) True if funds were captured in the transaction.
+ * @property int             $Source              (v40+ query response only) Reserved for future use
+ * @property int             $MaxRefund           (v40+ query response only) The maximum amount that could be refunded
+ *                                                  from this transaction
+ * @property int             $OriginalTransactionId (v40+ query response only) Contains the original transaction ID if
+ *                                                  the queried transaction is a refund
+ * @property string          $FraudAction         (v40+ query response only) The fraud action that occurred if any.
+ *                                              One of NotChallenged, Allow, Review, PreAuth, Processed, Approved, Block
+ * @property string          $CurrencyCode        (v40+ query response only) The ISO 4217 numeric currency code
+ *                                                  (e.g. AUD = 036)
  */
 class Transaction extends AbstractModel
 {
@@ -123,6 +135,13 @@ class Transaction extends AbstractModel
 
         'VerifyCustomerEmail',
         'VerifyCustomerPhone',
+
+        // v40 fields
+        'TransactionDateTime',
+        'TransactionCaptured',
+        'Source',
+        'MaxRefund',
+        'OriginalTransactionId',
     ];
 
     /**

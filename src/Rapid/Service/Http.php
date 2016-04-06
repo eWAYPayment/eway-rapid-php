@@ -29,6 +29,12 @@ class Http implements HttpServiceContract
     private $baseUrl;
 
     /**
+     *
+     * @var int
+     */
+    private $version;
+
+    /**
      * Extra proxy "Connection Established" header text
      */
     private static $CONNECTION_ESTABLISHED_HEADERS = array(
@@ -295,6 +301,27 @@ class Http implements HttpServiceContract
     }
 
     /**
+     *
+     * @param int $version
+     * @return Http
+     */
+    public function setVersion($version)
+    {
+        $this->version = $version;
+
+        return $this;
+    }
+
+    /**
+     *
+     * @return int
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    /**
      * @param $url
      *
      * @return ResponseInterface
@@ -358,6 +385,10 @@ class Http implements HttpServiceContract
 
             $options[CURLOPT_CUSTOMREQUEST] = 'POST';
             $options[CURLOPT_POSTFIELDS] = $jsonData;
+        }
+
+        if (isset($this->version) && is_numeric($this->version)) {
+            $headers[] = 'X-EWAY-APIVERSION: '.$this->version;
         }
 
         $options[CURLOPT_HTTPHEADER] = $headers;

@@ -206,4 +206,14 @@ interface HttpService
      * @return string
      */
     public function getBaseUrl();
+
+    /**
+     * @param int $version
+     */
+    public function setVersion($version);
+
+    /**
+     * @return int
+     */
+    public function getVersion();
 }

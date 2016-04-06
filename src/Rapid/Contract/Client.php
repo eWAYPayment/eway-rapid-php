@@ -28,7 +28,7 @@ interface Client
     /**
      * Rapid SDK Version.
      */
-    const VERSION = '1.2.3';
+    const VERSION = '1.3.0';
 
     /**
      * Sandbox mode.
@@ -134,6 +134,16 @@ interface Client
      * @return $this
      */
     public function setCredential($apiKey, $apiPassword);
+
+    /**
+     * Sets the version of Rapid API to use (e.g. 40)
+     * If not set, the account's default version is used.
+     *
+     * @param int $version
+     *
+     * @return $this
+     */
+    public function setVersion($version);
 
     /**
      * Sets the PSR-3 compliant logger

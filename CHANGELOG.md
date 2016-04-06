@@ -2,6 +2,10 @@
 
 All notable changes will be documented in this file
 
+## 1.3.0
+
+ - Added support for setting a Rapid version
+
 ## 1.2.2
 
  - Added support for a PSR-3 logger to log errors
