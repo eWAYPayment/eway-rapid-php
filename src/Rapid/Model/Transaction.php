@@ -28,8 +28,9 @@ use Eway\Rapid\Model\Support\HasVerificationTrait;
  * @property string          $DeviceID           (optional) Used to supply an identifier for the device sending the
  *           transaction.
  * @property string          $PartnerID          (optional) Used by shopping carts/ partners.
- * @property string          $ThirdPartyWalletID (optional) Used when a Third Party Digital wallet will be supplying
- *           the Card Details.
+ * @property string          $ThirdPartyWalletID (optional) Deprecated - use $SecuredCardData
+ * @property string          $SecuredCardData    (optional)Card data ID, used for Secure Fields, Visa Checkout, AMEX 
+ *           Express Checkout and Android Pay
  * @property int             $AuthTransactionID  (optional) Used with a PaymentType of Authorisation. This specifies
  *           the original authorisation that the funds are to be captured from.
  * @property string          $RedirectUrl        (optional) Used by transactions with a CardSource of
@@ -94,6 +95,7 @@ class Transaction extends AbstractModel
         'DeviceID',
         'PartnerID',
         'ThirdPartyWalletID',
+        'SecuredCardData',
         'AuthTransactionID',
         'RedirectUrl',
         'CancelUrl',

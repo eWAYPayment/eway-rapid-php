@@ -814,7 +814,7 @@ class CreateTransactionTest extends AbstractClientTest
             'Payment' => $payment,
             'Capture' => true,
             'TransactionType' => TransactionType::PURCHASE,
-            'ThirdPartyWalletID' => $walletId,
+            'SecuredCardData' => $walletId,
         ];
 
 
@@ -908,7 +908,7 @@ class CreateTransactionTest extends AbstractClientTest
             'Payment' => $payment,
             'Capture' => false,
             'TransactionType' => TransactionType::PURCHASE,
-            'ThirdPartyWalletID' => $walletId,
+            'SecuredCardData' => $walletId,
         ];
 
 

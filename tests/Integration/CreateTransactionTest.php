@@ -723,7 +723,7 @@ class CreateTransactionTest extends AbstractClientTest
             'Payment' => $payment,
             'Capture' => true,
             'TransactionType' => TransactionType::PURCHASE,
-            'ThirdPartyWalletID' => 'VCOCallID:123456',
+            'SecuredCardData' => 'VCOCallID:123456',
         ];
         $response = $this->client->createTransaction(ApiMethod::WALLET, $transaction);
         $this->assertInstanceOf(CreateTransactionResponse::getClass(), $response);
@@ -746,7 +746,7 @@ class CreateTransactionTest extends AbstractClientTest
             'Payment' => $payment,
             'Capture' => false,
             'TransactionType' => TransactionType::PURCHASE,
-            'ThirdPartyWalletID' => 'VCOCallID:123456',
+            'SecuredCardData' => 'VCOCallID:123456',
         ];
         $response = $this->client->createTransaction(ApiMethod::WALLET, $transaction);
         $this->assertInstanceOf(CreateTransactionResponse::getClass(), $response);

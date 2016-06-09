@@ -2,6 +2,11 @@
 
 All notable changes will be documented in this file
 
+## 1.3.1
+
+ - Added `SecuredCardData` field to support Secure Fields, Visa Checkout, AMEX Express Checkout and Android Pay
+ - `ThirdPartyWalletID` marked as deprecated, SecuredCardData should be used instead.
+
 ## 1.3.0
 
  - Added support for setting a Rapid version
