@@ -2,6 +2,10 @@
 
 All notable changes will be documented in this file
 
+## 1.3.2
+
+ - Added `SecuredCardData` field to Customer object for token creation with Secure Fields etc.
+
 ## 1.3.1
 
  - Added `SecuredCardData` field to support Secure Fields, Visa Checkout, AMEX Express Checkout and Android Pay
