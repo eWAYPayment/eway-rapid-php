@@ -477,6 +477,9 @@ class Client implements ClientContract
         if (isset($customer->CancelUrl)) {
             $transaction['CancelUrl'] = $customer->CancelUrl;
         }
+        if (isset($customer->SecuredCardData)) {
+            $transaction['SecuredCardData'] = $customer->SecuredCardData;
+        }
 
         /** @var Transaction $transaction */
         $transaction = ClassValidator::getInstance('Eway\Rapid\Model\Transaction', $transaction);
