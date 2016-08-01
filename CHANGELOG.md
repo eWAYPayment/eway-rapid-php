@@ -2,6 +2,10 @@
 
 All notable changes will be documented in this file
 
+## 1.3.3
+
+ - Fix so that `SecuredCardData` is passed when doing a token customer update
+
 ## 1.3.2
 
  - Added `SecuredCardData` field to Customer object for token creation with Secure Fields etc.
