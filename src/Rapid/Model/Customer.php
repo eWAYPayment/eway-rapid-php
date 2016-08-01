@@ -75,5 +75,7 @@ class Customer extends AbstractModel
         // Other
         'RedirectUrl',
         'CancelUrl',
+        // For Secure Fields
+        'SecuredCardData',
     ];
 }
