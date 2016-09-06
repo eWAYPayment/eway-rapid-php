@@ -425,6 +425,9 @@ class Client implements ClientContract
         if (isset($customer->SecuredCardData)) {
             $transaction['SecuredCardData'] = $customer->SecuredCardData;
         }
+        if (isset($customer->CustomView)) {
+            $transaction['CustomView'] = $customer->CustomView;
+        }
 
         /** @var Transaction $transaction */
         $transaction = ClassValidator::getInstance('Eway\Rapid\Model\Transaction', $transaction);
@@ -479,6 +482,9 @@ class Client implements ClientContract
         }
         if (isset($customer->SecuredCardData)) {
             $transaction['SecuredCardData'] = $customer->SecuredCardData;
+        }
+        if (isset($customer->CustomView)) {
+            $transaction['CustomView'] = $customer->CustomView;
         }
 
         /** @var Transaction $transaction */

@@ -77,5 +77,7 @@ class Customer extends AbstractModel
         'CancelUrl',
         // For Secure Fields
         'SecuredCardData',
+        // For changing theme in Responsive Shared Page
+        'CustomView',
     ];
 }
