@@ -129,15 +129,10 @@ class CreateCustomerTest extends AbstractClientTest
             'FirstName' => 'John',
             'LastName' => 'Smith',
             'Country' => 'au',
-            'CardDetails' => [
-                'Name' => 'John Smith',
-                'Number' => '4444333322221111',
-                'ExpiryMonth' => '12',
-                'ExpiryYear' => '25',
-                'CVN' => '123',
-            ],
-            "RedirectUrl" => "http://www.eway.com.au",
-            "CancelUrl" => "http://www.eway.com.au",
+            'RedirectUrl' => 'http://www.eway.com.au',
+            'CancelUrl' => 'http://www.eway.com.au',
+            'CustomView' => 'Bootstrap',
+            'HeaderText' => 'Awesome Store',
         ];
 
         $transaction = [
@@ -146,6 +141,8 @@ class CreateCustomerTest extends AbstractClientTest
             'TransactionType' => TransactionType::MOTO,
             'RedirectUrl' => $customer['RedirectUrl'],
             'CancelUrl' => $customer['CancelUrl'],
+            'CustomView' => $customer['CustomView'],
+            'HeaderText' => $customer['HeaderText'],
             'Payment' => [
                 'TotalAmount' => 0,
             ],
@@ -228,13 +225,6 @@ class CreateCustomerTest extends AbstractClientTest
             'FirstName' => 'John',
             'LastName' => 'Smith',
             'Country' => 'au',
-            'CardDetails' => [
-                'Name' => 'John Smith',
-                'Number' => '4444333322221111',
-                'ExpiryMonth' => '12',
-                'ExpiryYear' => '25',
-                'CVN' => '123',
-            ],
             "RedirectUrl" => "http://www.eway.com.au",
         ];
 

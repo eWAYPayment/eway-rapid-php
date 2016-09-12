@@ -28,6 +28,19 @@ use Eway\Rapid\Model\Support\HasCardDetailTrait;
  * @property string      $Comments        Comments attached to this customer.
  * @property string      $RedirectUrl     URL to redirect after transaction compelte
  * @property string      $CancelUrl       URL to use if a Shared Page transaction is cancelled
+ * @property string      $SecuredCardData Card data ID, used for Secure Fields, Visa Checkout, AMEX Express Checkout
+ *                                        and Android Pay
+ * @property string      $CustomView      Set the theme of the Responsive Shared Page
+ * @property string      $LogoUrl         The URL of the merchant’s logo to display on the shared page
+ * @property string      $HeaderText      Short text description to be placed under the logo on the shared page
+ * @property string      $Language        Language code determines the language that the shared page will be
+ *                                        displayed in
+ * @property string      $CustomerReadOnly When set to false, cardholders will be able to edit the information on the
+ *                                         shared page, even if it’s sent through in the server side request.
+ * @property boolean     $VerifyCustomerPhone Set whether the customer’s phone number should be confirmed using
+ *                                           Beagle Verify
+ * @property boolean     $VerifyCustomerEmail Set whether the customer’s email should be confirmed using
+ *                                            Beagle Verify
  * @property CardDetails $CardDetails     Contains card detials for a Direct transaction
  * @property string      $CardName        Response field only
  * @property string      $CardNumber      Response field only
@@ -79,5 +92,11 @@ class Customer extends AbstractModel
         'SecuredCardData',
         // For changing theme in Responsive Shared Page
         'CustomView',
+        'LogoUrl',
+        'HeaderText',
+        'Language',
+        'CustomerReadOnly',
+        'VerifyCustomerPhone',
+        'VerifyCustomerEmail',
     ];
 }
