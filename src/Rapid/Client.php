@@ -411,26 +411,8 @@ class Client implements ClientContract
 
         $apiMethod = EnumValidator::validate('Eway\Rapid\Enum\ApiMethod', 'ApiMethod', $apiMethod);
 
-        $transaction = [
-            'Customer' => $customer->toArray(),
-            'Method' => PaymentMethod::CREATE_TOKEN_CUSTOMER,
-            'TransactionType' => TransactionType::MOTO,
-        ];
-        if (isset($customer->RedirectUrl)) {
-            $transaction['RedirectUrl'] = $customer->RedirectUrl;
-        }
-        if (isset($customer->CancelUrl)) {
-            $transaction['CancelUrl'] = $customer->CancelUrl;
-        }
-        if (isset($customer->SecuredCardData)) {
-            $transaction['SecuredCardData'] = $customer->SecuredCardData;
-        }
-        if (isset($customer->CustomView)) {
-            $transaction['CustomView'] = $customer->CustomView;
-        }
-
-        /** @var Transaction $transaction */
-        $transaction = ClassValidator::getInstance('Eway\Rapid\Model\Transaction', $transaction);
+        $transaction = $this->customerToTransaction($customer);
+        $transaction->Method = PaymentMethod::CREATE_TOKEN_CUSTOMER;
 
         switch ($apiMethod) {
             case ApiMethod::DIRECT:
@@ -467,28 +449,9 @@ class Client implements ClientContract
 
         $apiMethod = EnumValidator::validate('Eway\Rapid\Enum\ApiMethod', 'ApiMethod', $apiMethod);
 
-        $transaction = [
-            'Customer' => $customer->toArray(),
-            'Payment' => ['TotalAmount' => 0],
-            'Method' => PaymentMethod::UPDATE_TOKEN_CUSTOMER,
-            'TransactionType' => TransactionType::MOTO,
-        ];
-
-        if (isset($customer->RedirectUrl)) {
-            $transaction['RedirectUrl'] = $customer->RedirectUrl;
-        }
-        if (isset($customer->CancelUrl)) {
-            $transaction['CancelUrl'] = $customer->CancelUrl;
-        }
-        if (isset($customer->SecuredCardData)) {
-            $transaction['SecuredCardData'] = $customer->SecuredCardData;
-        }
-        if (isset($customer->CustomView)) {
-            $transaction['CustomView'] = $customer->CustomView;
-        }
-
-        /** @var Transaction $transaction */
-        $transaction = ClassValidator::getInstance('Eway\Rapid\Model\Transaction', $transaction);
+        $transaction = $this->customerToTransaction($customer);
+        $transaction->Method = PaymentMethod::UPDATE_TOKEN_CUSTOMER;
+        $transaction->Payment = ['TotalAmount' => 0];
 
         switch ($apiMethod) {
             case ApiMethod::DIRECT:
@@ -768,6 +731,30 @@ class Client implements ClientContract
         if ($hasRequestError) {
             throw new RequestException(sprintf("Last HTTP response status code: %s", $response->getStatusCode()));
         }
+    }
+
+    /**
+     * Convert a Customer to a Transaction object for a create or update
+     * token transaction
+     *
+     * @param Eway\Rapid\Model\Customer $customer
+     * @return Eway\Rapid\Model\Transaction
+     */
+    private function customerToTransaction($customer)
+    {
+        $transaction = [
+            'Customer' => $customer->toArray(),
+            'TransactionType' => TransactionType::MOTO,
+        ];
+
+        foreach ($customer->toArray() as $key => $value) {
+            if ($key != 'TokenCustomerID') {
+                $transaction[$key] = $value;
+            }
+        }
+
+        /** @var Transaction $transaction */
+        return ClassValidator::getInstance('Eway\Rapid\Model\Transaction', $transaction);
     }
 
     /**

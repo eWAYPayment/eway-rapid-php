@@ -29,7 +29,7 @@ use Eway\Rapid\Model\Support\HasVerificationTrait;
  *           transaction.
  * @property string          $PartnerID          (optional) Used by shopping carts/ partners.
  * @property string          $ThirdPartyWalletID (optional) Deprecated - use $SecuredCardData
- * @property string          $SecuredCardData    (optional)Card data ID, used for Secure Fields, Visa Checkout, AMEX 
+ * @property string          $SecuredCardData    (optional)Card data ID, used for Secure Fields, Visa Checkout, AMEX
  *           Express Checkout and Android Pay
  * @property int             $AuthTransactionID  (optional) Used with a PaymentType of Authorisation. This specifies
  *           the original authorisation that the funds are to be captured from.
@@ -47,7 +47,8 @@ use Eway\Rapid\Model\Support\HasVerificationTrait;
  * @property string          $TokenCustomerID
  * @property string          $TransactionDateTime (v40+ query response only) The date and time the transaction took
  *                                                  place
- * @property boolean         $TransactionCaptured (v40+ query response only) True if funds were captured in the transaction.
+ * @property boolean         $TransactionCaptured (v40+ query response only) True if funds were captured in the
+ *                                                  transaction.
  * @property int             $Source              (v40+ query response only) Reserved for future use
  * @property int             $MaxRefund           (v40+ query response only) The maximum amount that could be refunded
  *                                                  from this transaction

@@ -132,6 +132,8 @@ class UpdateCustomerTest extends AbstractClientTest
         $customer = [
             'TokenCustomerID' => 987654321098,
             'RedirectUrl' => 'http://www.eway.com.au',
+            'CustomView' => 'Bootstrap',
+            'HeaderText' => 'Awesome Store',
         ];
 
         $payment = [
@@ -144,6 +146,8 @@ class UpdateCustomerTest extends AbstractClientTest
             'Method' => PaymentMethod::UPDATE_TOKEN_CUSTOMER,
             'TransactionType' => TransactionType::MOTO,
             'RedirectUrl' => $customer['RedirectUrl'],
+            'CustomView' => $customer['CustomView'],
+            'HeaderText' => $customer['HeaderText'],
         ];
 
         $mockTransaction = $transaction;
