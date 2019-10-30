@@ -24,7 +24,7 @@
         "phpunit/phpunit": "4.8.*",
         "phpdocumentor/phpdocumentor": "~2.8",
         "internations/http-mock": "~0.7",
-        "jeremeamia/SuperClosure": "1.0.2",
+        "jeremeamia/superclosure": "1.0.2",
         "squizlabs/php_codesniffer": "2.*"
     },
     "autoload": {
