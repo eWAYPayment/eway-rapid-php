@@ -8,9 +8,6 @@ php:
 
 matrix:
     fast_finish: true
-    include:
-     - php: hhvm
-       script: phpunit --testsuite integration
 
 env:
  - EWAY_API_VERSION=31
