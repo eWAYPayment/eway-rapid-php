@@ -5,8 +5,8 @@ namespace Eway\Rapid\Model\Response;
 /**
  * Class SettlementSearchResponse.
  *
- * @property array  SettlementSummaries
- * @property array  SettlementTransactions
+ * @property array  $SettlementSummaries
+ * @property array  $SettlementTransactions
  */
 class SettlementSearchResponse extends AbstractResponse
 {

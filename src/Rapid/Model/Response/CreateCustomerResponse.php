@@ -13,20 +13,20 @@ use Eway\Rapid\Model\Support\HasVerificationTrait;
  * Additional fields may also be set when the Create request has a PaymentMethod
  * of Responsive Shared or Transparent Redirect.
  *
- * @property array    Errors           List of all validation, or processing, during the method call.
+ * @property array    $Errors           List of all validation, or processing, during the method call.
  *                                      empty/null if no errors occured. This member combines all
  *                                      errors related to the request.
- * @property Customer Customer         The Customer created by the method call. This will echo back
+ * @property Customer $Customer         The Customer created by the method call. This will echo back
  *                                      the properties of the Customer adding the TokenCustomerID
  *                                      for the created customer.
- * @property string   SharedPaymentUrl (Only for payment method of ResponsiveShared)
+ * @property string   $SharedPaymentUrl (Only for payment method of ResponsiveShared)
  *                                      URL to the Responsive Shared Page that the cardholder's
  *                                      browser should be redirected to to capture the card to save
  *                                      with the new customer.
- * @property string   FormActionUrl    (Only for payment method of TransparentRedirect)
+ * @property string   $FormActionUrl    (Only for payment method of TransparentRedirect)
  *                                      URL That the merchant's credit card collection form should
  *                                      post to to capture the card to be saved with the new customer.
- * @property string   AccessCode       The AccessCode for this transaction (can be used with the
+ * @property string   $AccessCode       The AccessCode for this transaction (can be used with the
  *                                      customer query method call for searching before and after
  *                                      the card capture is completed)
  */
