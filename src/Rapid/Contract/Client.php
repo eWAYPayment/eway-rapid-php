@@ -280,4 +280,16 @@ interface Client
      * @return SettlementSearchResponse
      */
     public function settlementSearch($query);
+
+    /**
+     * @param $transaction
+     * @return mixed
+     */
+    public function create3dsEnrolment($transaction);
+
+    /**
+     * @param $transaction
+     * @return mixed
+     */
+    public function verify3dsEnrolment($transaction);
 }
