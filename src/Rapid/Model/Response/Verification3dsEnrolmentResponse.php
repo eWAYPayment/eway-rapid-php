@@ -10,7 +10,7 @@ use Eway\Rapid\Model\ThreeDSecureAuth;
  * @property bool Enrolled
  * @property ThreeDSecureAuth ThreeDSecureAuth
  */
-class Verification3DsEnrolmentResponse extends AbstractResponse
+class Verification3dsEnrolmentResponse extends AbstractResponse
 {
     protected $fillable = [
         'Errors',
