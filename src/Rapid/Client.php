@@ -23,7 +23,7 @@ use Eway\Rapid\Model\Response\QueryCustomerResponse;
 use Eway\Rapid\Model\Response\QueryTransactionResponse;
 use Eway\Rapid\Model\Response\RefundResponse;
 use Eway\Rapid\Model\Response\SettlementSearchResponse;
-use Eway\Rapid\Model\Response\Verification3DsEnrolmentResponse;
+use Eway\Rapid\Model\Response\Verification3dsEnrolmentResponse;
 use Eway\Rapid\Model\Transaction;
 use Eway\Rapid\Service\Http;
 use Eway\Rapid\Validator\ClassValidator;
