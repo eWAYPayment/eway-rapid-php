@@ -7,7 +7,7 @@ namespace Eway\Rapid\Model\Response;
  * @property string Default3dsUrl
  * @property string AccessCode
  */
-class Creation3DsEnrolmentResponse extends AbstractResponse
+class Creation3dsEnrolmentResponse extends AbstractResponse
 {
     protected $fillable = [
         'Errors',
