@@ -28,7 +28,7 @@ interface Client
     /**
      * Rapid SDK Version.
      */
-    const VERSION = '1.3.1';
+    const VERSION = '1.4.0';
 
     /**
      * Sandbox mode.
