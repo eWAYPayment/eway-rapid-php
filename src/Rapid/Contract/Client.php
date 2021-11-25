@@ -28,7 +28,7 @@ interface Client
     /**
      * Rapid SDK Version.
      */
-    const VERSION = '1.3.1';
+    const VERSION = '1.4.0';
 
     /**
      * Sandbox mode.
@@ -280,4 +280,16 @@ interface Client
      * @return SettlementSearchResponse
      */
     public function settlementSearch($query);
+
+    /**
+     * @param $transaction
+     * @return mixed
+     */
+    public function create3dsEnrolment($transaction);
+
+    /**
+     * @param $transaction
+     * @return mixed
+     */
+    public function verify3dsEnrolment($transaction);
 }

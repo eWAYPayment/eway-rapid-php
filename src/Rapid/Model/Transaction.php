@@ -29,7 +29,7 @@ use Eway\Rapid\Model\Support\HasVerificationTrait;
  *           transaction.
  * @property string          $PartnerID          (optional) Used by shopping carts/ partners.
  * @property string          $ThirdPartyWalletID (optional) Deprecated - use $SecuredCardData
- * @property string          $SecuredCardData    (optional)Card data ID, used for Secure Fields, Visa Checkout, AMEX 
+ * @property string          $SecuredCardData    (optional)Card data ID, used for Secure Fields, Visa Checkout, AMEX
  *           Express Checkout and Android Pay
  * @property int             $AuthTransactionID  (optional) Used with a PaymentType of Authorisation. This specifies
  *           the original authorisation that the funds are to be captured from.
@@ -57,6 +57,8 @@ use Eway\Rapid\Model\Support\HasVerificationTrait;
  *                                              One of NotChallenged, Allow, Review, PreAuth, Processed, Approved, Block
  * @property string          $CurrencyCode        (v40+ query response only) The ISO 4217 numeric currency code
  *                                                  (e.g. AUD = 036)
+ *
+ * @property array           $PaymentInstrument  (optional) Set to data for 3DS 2.0
  */
 class Transaction extends AbstractModel
 {
@@ -144,6 +146,9 @@ class Transaction extends AbstractModel
         'Source',
         'MaxRefund',
         'OriginalTransactionId',
+
+        // PaymentInstrument
+        'PaymentInstrument'
     ];
 
     /**

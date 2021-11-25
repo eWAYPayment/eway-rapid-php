@@ -2,6 +2,10 @@
 
 All notable changes will be documented in this file
 
+## 1.4.0
+ - Update PHP SDK - 3DS 2.0 - Add new error code support 
+ - Update PHP SDK - 3DS 2.0 - Increase HTTP timeout to 120 seconds
+
 ## 1.3.3
 
  - Fix so that `SecuredCardData` is passed when doing a token customer update
