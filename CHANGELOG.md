@@ -2,8 +2,11 @@
 
 All notable changes will be documented in this file
 
-## 1.3.4
+## 1.4.0
+ - Update PHP SDK - 3DS 2.0 - Add new error code support
+ - Update PHP SDK - 3DS 2.0 - Increase HTTP timeout to 120 seconds
 
+## 1.3.4
  - Added extra fields to support customising the Responsive Shared Page when creating and updating token customers.
 
 ## 1.3.3

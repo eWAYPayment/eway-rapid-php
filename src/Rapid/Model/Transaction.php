@@ -58,6 +58,8 @@ use Eway\Rapid\Model\Support\HasVerificationTrait;
  *                                              One of NotChallenged, Allow, Review, PreAuth, Processed, Approved, Block
  * @property string          $CurrencyCode        (v40+ query response only) The ISO 4217 numeric currency code
  *                                                  (e.g. AUD = 036)
+ *
+ * @property array           $PaymentInstrument  (optional) Set to data for 3DS 2.0
  */
 class Transaction extends AbstractModel
 {
@@ -145,6 +147,9 @@ class Transaction extends AbstractModel
         'Source',
         'MaxRefund',
         'OriginalTransactionId',
+
+        // PaymentInstrument
+        'PaymentInstrument'
     ];
 
     /**

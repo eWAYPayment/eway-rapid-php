@@ -74,6 +74,16 @@ interface HttpService
     const API_SETTLEMENT_SEARCH = 'Search/Settlement';
 
     /**
+     * API 3DS 2.0 Create Enrolment Endpoint
+     */
+    const API_3DS2_CREATE_ENROLMENT = '3dsenrol';
+
+    /**
+     * API 3DS 2.0 Verify Enrolment Endpoint
+     */
+    const API_3DS2_VERIFY_ENROLMENT = '3dsverify';
+
+    /**
      * cURL hex representation of version 7.30.0
      */
     const CURL_NO_QUIRK_VERSION = 0x071E00;
@@ -123,6 +133,22 @@ interface HttpService
      * @return ResponseInterface
      */
     public function postAccessCodeShared($data);
+
+
+    /**
+     * @param $data
+     *
+     * @return ResponseInterface
+     */
+    public function post3dsEnrolment($data);
+
+
+    /**
+     * @param $data
+     *
+     * @return ResponseInterface
+     */
+    public function post3dsEnrolmentVerification($data);
 
 
     /**

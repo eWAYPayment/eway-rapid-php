@@ -15,6 +15,7 @@ use Eway\Rapid\Exception\RequestException;
 use Eway\Rapid\Model\Customer;
 use Eway\Rapid\Model\Refund;
 use Eway\Rapid\Model\Response\AbstractResponse;
+use Eway\Rapid\Model\Response\Creation3dsEnrolmentResponse;
 use Eway\Rapid\Model\Response\CreateCustomerResponse;
 use Eway\Rapid\Model\Response\CreateTransactionResponse;
 use Eway\Rapid\Model\Response\QueryAccessCodeResponse;
@@ -22,6 +23,7 @@ use Eway\Rapid\Model\Response\QueryCustomerResponse;
 use Eway\Rapid\Model\Response\QueryTransactionResponse;
 use Eway\Rapid\Model\Response\RefundResponse;
 use Eway\Rapid\Model\Response\SettlementSearchResponse;
+use Eway\Rapid\Model\Response\Verification3dsEnrolmentResponse;
 use Eway\Rapid\Model\Transaction;
 use Eway\Rapid\Service\Http;
 use Eway\Rapid\Validator\ClassValidator;
@@ -277,6 +279,24 @@ class Client implements ClientContract
         return $this->invoke(SettlementSearchResponse::getClass());
     }
 
+    /**
+     * @param $transaction
+     * @return AbstractResponse
+     */
+    public function create3dsEnrolment($transaction)
+    {
+        return $this->invoke(Creation3dsEnrolmentResponse::getClass());
+    }
+
+    /**
+     * @param $transaction
+     * @return AbstractResponse
+     */
+    public function verify3dsEnrolment($transaction)
+    {
+        return $this->invoke(Verification3DsEnrolmentResponse::getClass());
+    }
+
     #endregion
 
     #region Getter/Setter
@@ -365,6 +385,24 @@ class Client implements ClientContract
                 // changes to ApiMethod
                 throw new MethodNotImplementedException();
         }
+    }
+
+    /**
+     * @param $transaction
+     * @return ResponseInterface
+     */
+    private function doCreate3dsEnrolment($transaction)
+    {
+        return $this->getHttpService()->post3dsEnrolment($transaction);
+    }
+
+    /**
+     * @param $transaction
+     * @return ResponseInterface
+     */
+    private function doVerify3dsEnrolment($transaction)
+    {
+        return $this->getHttpService()->post3dsEnrolmentVerification($transaction);
     }
 
     /**

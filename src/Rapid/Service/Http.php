@@ -143,6 +143,26 @@ class Http implements HttpServiceContract
     }
 
     /**
+     * @param $data
+     *
+     * @return ResponseInterface
+     */
+    public function post3dsEnrolment($data)
+    {
+        return $this->postRequest(self::API_3DS2_CREATE_ENROLMENT, $data);
+    }
+
+    /**
+     * @param $data
+     *
+     * @return ResponseInterface
+     */
+    public function post3dsEnrolmentVerification($data)
+    {
+        return $this->postRequest(self::API_3DS2_VERIFY_ENROLMENT, $data);
+    }
+
+    /**
      * @param $accessCode
      *
      * @return ResponseInterface
@@ -374,7 +394,7 @@ class Http implements HttpServiceContract
             CURLOPT_HEADER => true,
             CURLOPT_USERAGENT => $agent,
             CURLOPT_USERPWD => $credentials,
-            CURLOPT_TIMEOUT => 60,
+            CURLOPT_TIMEOUT => 120,
         ];
 
         if (strtoupper($method) === 'POST') {
