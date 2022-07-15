@@ -155,8 +155,8 @@ class Client implements ClientContract
     }
 
     /**
-      * @inheritdoc
-      */
+     * @inheritdoc
+     */
     public function setVersion($version)
     {
         $this->version = $version;
@@ -346,7 +346,7 @@ class Client implements ClientContract
                 } else {
                     $transaction->Method = PaymentMethod::AUTHORISE;
                 }
-
+                $this->logPostRequest(__FUNCTION__, $apiMethod, $transaction->toArray());
                 return $this->getHttpService()->postTransaction($transaction->toArray());
 
             case ApiMethod::RESPONSIVE_SHARED:
@@ -360,7 +360,7 @@ class Client implements ClientContract
                 } else {
                     $transaction->Method = PaymentMethod::AUTHORISE;
                 }
-
+                $this->logPostRequest(__FUNCTION__, $apiMethod, $transaction->toArray());
                 return $this->getHttpService()->postAccessCodeShared($transaction->toArray());
 
             case ApiMethod::TRANSPARENT_REDIRECT:
@@ -374,10 +374,11 @@ class Client implements ClientContract
                 } else {
                     $transaction->Method = PaymentMethod::AUTHORISE;
                 }
-
+                $this->logPostRequest(__FUNCTION__, $apiMethod, $transaction->toArray());
                 return $this->getHttpService()->postAccessCode($transaction->toArray());
 
             case ApiMethod::AUTHORISATION:
+                $this->logPostRequest(__FUNCTION__, $apiMethod, $transaction->toArray());
                 return $this->getHttpService()->postCapturePayment($transaction->toArray());
 
             default:
@@ -393,6 +394,7 @@ class Client implements ClientContract
      */
     private function doCreate3dsEnrolment($transaction)
     {
+        $this->logPostRequest(__FUNCTION__, null, $transaction);
         return $this->getHttpService()->post3dsEnrolment($transaction);
     }
 
@@ -402,6 +404,7 @@ class Client implements ClientContract
      */
     private function doVerify3dsEnrolment($transaction)
     {
+        $this->logPostRequest(__FUNCTION__, null, $transaction);
         return $this->getHttpService()->post3dsEnrolmentVerification($transaction);
     }
 
@@ -412,6 +415,7 @@ class Client implements ClientContract
      */
     private function doQueryTransaction($reference)
     {
+        $this->logPostRequest(__FUNCTION__, null, ['Reference' => $reference]);
         return $this->getHttpService()->getTransaction($reference);
     }
 
@@ -444,6 +448,8 @@ class Client implements ClientContract
      */
     private function doCreateCustomer($apiMethod, $customer)
     {
+        $paymentInstrument = $customer['PaymentInstrument'] ?? null;
+
         /** @var Customer $customer */
         $customer = ClassValidator::getInstance('Eway\Rapid\Model\Customer', $customer);
 
@@ -452,18 +458,28 @@ class Client implements ClientContract
         $transaction = $this->customerToTransaction($customer);
         $transaction->Method = PaymentMethod::CREATE_TOKEN_CUSTOMER;
 
+        if ($apiMethod == ApiMethod::WALLET && $paymentInstrument) {
+            $transaction->PaymentInstrument = $paymentInstrument;
+            $transaction->Payment = ['TotalAmount' => 0];
+        }
+
         switch ($apiMethod) {
             case ApiMethod::DIRECT:
+            case ApiMethod::WALLET:
+
+                $this->logPostRequest(__FUNCTION__, $apiMethod, $transaction->toArray());
                 return $this->getHttpService()->postTransaction($transaction->toArray());
 
             case ApiMethod::RESPONSIVE_SHARED:
                 $transaction->Payment = ['TotalAmount' => 0];
 
+                $this->logPostRequest(__FUNCTION__, $apiMethod, $transaction->toArray());
                 return $this->getHttpService()->postAccessCodeShared($transaction->toArray());
 
             case ApiMethod::TRANSPARENT_REDIRECT:
                 $transaction->Payment = ['TotalAmount' => 0];
 
+                $this->logPostRequest(__FUNCTION__, $apiMethod, $transaction->toArray());
                 return $this->getHttpService()->postAccessCode($transaction->toArray());
 
             default:
@@ -493,12 +509,15 @@ class Client implements ClientContract
 
         switch ($apiMethod) {
             case ApiMethod::DIRECT:
+                $this->logPostRequest(__FUNCTION__, $apiMethod, $transaction->toArray());
                 return $this->getHttpService()->postTransaction($transaction->toArray());
 
             case ApiMethod::RESPONSIVE_SHARED:
+                $this->logPostRequest(__FUNCTION__, $apiMethod, $transaction->toArray());
                 return $this->getHttpService()->postAccessCodeShared($transaction->toArray());
 
             case ApiMethod::TRANSPARENT_REDIRECT:
+                $this->logPostRequest(__FUNCTION__, $apiMethod, $transaction->toArray());
                 return $this->getHttpService()->postAccessCode($transaction->toArray());
 
             default:
@@ -515,6 +534,7 @@ class Client implements ClientContract
      */
     private function doQueryCustomer($tokenCustomerId)
     {
+        $this->logPostRequest(__FUNCTION__, null, ['TokenCustomerID' => $tokenCustomerId]);
         return $this->getHttpService()->getCustomer($tokenCustomerId);
     }
 
@@ -528,6 +548,7 @@ class Client implements ClientContract
         /** @var Refund $refund */
         $refund = ClassValidator::getInstance('Eway\Rapid\Model\Refund', $refund);
 
+        $this->logPostRequest(__FUNCTION__, null, $refund->toArray());
         return $this->getHttpService()->postTransactionRefund($refund->Refund->TransactionID, $refund->toArray());
     }
 
@@ -545,6 +566,7 @@ class Client implements ClientContract
         /** @var Refund $refund */
         $refund = ClassValidator::getInstance('Eway\Rapid\Model\Refund', $refund);
 
+        $this->logPostRequest(__FUNCTION__, null, $refund->toArray());
         return $this->getHttpService()->postCancelAuthorisation($refund->toArray());
     }
 
@@ -555,6 +577,7 @@ class Client implements ClientContract
      */
     private function doQueryAccessCode($accessCode)
     {
+        $this->logPostRequest(__FUNCTION__, null, ['AccessCode' => $accessCode]);
         return $this->getHttpService()->getAccessCode($accessCode);
     }
 
@@ -694,8 +717,8 @@ class Client implements ClientContract
     {
         $this->removeError(self::ERROR_INVALID_ENDPOINT);
         if (empty($this->endpoint)
-                || strpos($this->endpoint, 'https') !== 0
-                || substr($this->endpoint, -1) != '/') {
+            || strpos($this->endpoint, 'https') !== 0
+            || substr($this->endpoint, -1) != '/') {
             $this->log('error', "Missing or invalid endpoint");
             $this->addError(self::ERROR_INVALID_ENDPOINT, false);
         }
@@ -804,6 +827,32 @@ class Client implements ClientContract
     {
         if (isset($this->logger) && LogLevel::isValidValue($level)) {
             $this->logger->$level($message);
+        }
+    }
+
+    /**
+     * @param $action
+     * @param $method
+     * @param $data
+     * @return void
+     */
+    private function logPostRequest($action, $method, $data)
+    {
+        if (isset($this->logger)) {
+            if (null !== $method) {
+                $this->logger->debug(sprintf(
+                    '>>>>>>>>>>>> REQUEST [%s:%s] BODY=%s',
+                    $action,
+                    $method,
+                    json_encode($data)
+                ));
+            } else {
+                $this->logger->debug(sprintf(
+                    '>>>>>>>>>>>> REQUEST [%s] BODY=%s',
+                    $action,
+                    json_encode($data)
+                ));
+            }
         }
     }
 
