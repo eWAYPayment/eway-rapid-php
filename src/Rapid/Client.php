@@ -835,10 +835,12 @@ class Client implements ClientContract
      * @param $method
      * @param $data
      * @return void
+     * @throws \Exception
      */
     private function logPostRequest($action, $method, $data)
     {
         if (isset($this->logger)) {
+            $data = $this->filterCardDetailsData($data);
             if (null !== $method) {
                 $this->logger->debug(sprintf(
                     '>>>>>>>>>>>> REQUEST [%s:%s] BODY=%s',
@@ -854,6 +856,57 @@ class Client implements ClientContract
                 ));
             }
         }
+    }
+    /**
+     * @param $data
+     * @return array
+     * @throws \Exception
+     */
+    private function filterCardDetailsData($data)
+    {
+        if (isset($data['Customer']['CardDetails'])) {
+            $cardDetail = $data['Customer']['CardDetails'];
+            if (isset($cardDetail['Name'])) {
+                $data['Customer']['CardDetails']['Name'] = $this->encryptString($cardDetail['Name']);
+            }
+            if (isset($cardDetail['Number'])) {
+                $data['Customer']['CardDetails']['Number'] = $this->encryptString($cardDetail['Number']);
+            }
+            if (isset($cardDetail['ExpiryMonth'])) {
+                $data['Customer']['CardDetails']['ExpiryMonth'] = $this->encryptString($cardDetail['ExpiryMonth']);
+            }
+            if (isset($cardDetail['ExpiryYear'])) {
+                $data['Customer']['CardDetails']['ExpiryYear'] = $this->encryptString($cardDetail['ExpiryYear']);
+            }
+            if (isset($cardDetail['CVN'])) {
+                $data['Customer']['CardDetails']['CVN'] = $this->encryptString($cardDetail['CVN']);
+            }
+        }
+        return $data;
+    }
+
+
+    /**
+     * @param $string
+     * @return false|string
+     * @throws \Exception
+     */
+    private function encryptString($string)
+    {
+        // Cipher method
+        $ciphering = "BF-CBC";
+
+        // Using OpenSSl encryption method
+        $ivLength = openssl_cipher_iv_length($ciphering);
+        $options   = 0;
+
+        // Using random_bytes() function which gives
+        // randomly 16 digit values
+        $encryptionIv = random_bytes($ivLength);
+
+        $encryptionKey = openssl_digest(php_uname(), 'MD5', true);
+
+        return openssl_encrypt($string, $ciphering, $encryptionKey, $options, $encryptionIv);
     }
 
     #endregion
