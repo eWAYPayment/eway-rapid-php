@@ -346,7 +346,7 @@ class Client implements ClientContract
                 } else {
                     $transaction->Method = PaymentMethod::AUTHORISE;
                 }
-                $this->logPostRequest(__FUNCTION__, $apiMethod, $transaction->toArray());
+
                 return $this->getHttpService()->postTransaction($transaction->toArray());
 
             case ApiMethod::RESPONSIVE_SHARED:
@@ -360,7 +360,7 @@ class Client implements ClientContract
                 } else {
                     $transaction->Method = PaymentMethod::AUTHORISE;
                 }
-                $this->logPostRequest(__FUNCTION__, $apiMethod, $transaction->toArray());
+
                 return $this->getHttpService()->postAccessCodeShared($transaction->toArray());
 
             case ApiMethod::TRANSPARENT_REDIRECT:
@@ -374,11 +374,10 @@ class Client implements ClientContract
                 } else {
                     $transaction->Method = PaymentMethod::AUTHORISE;
                 }
-                $this->logPostRequest(__FUNCTION__, $apiMethod, $transaction->toArray());
+
                 return $this->getHttpService()->postAccessCode($transaction->toArray());
 
             case ApiMethod::AUTHORISATION:
-                $this->logPostRequest(__FUNCTION__, $apiMethod, $transaction->toArray());
                 return $this->getHttpService()->postCapturePayment($transaction->toArray());
 
             default:
@@ -394,7 +393,6 @@ class Client implements ClientContract
      */
     private function doCreate3dsEnrolment($transaction)
     {
-        $this->logPostRequest(__FUNCTION__, null, $transaction);
         return $this->getHttpService()->post3dsEnrolment($transaction);
     }
 
@@ -404,7 +402,6 @@ class Client implements ClientContract
      */
     private function doVerify3dsEnrolment($transaction)
     {
-        $this->logPostRequest(__FUNCTION__, null, $transaction);
         return $this->getHttpService()->post3dsEnrolmentVerification($transaction);
     }
 
@@ -415,7 +412,6 @@ class Client implements ClientContract
      */
     private function doQueryTransaction($reference)
     {
-        $this->logPostRequest(__FUNCTION__, null, ['Reference' => $reference]);
         return $this->getHttpService()->getTransaction($reference);
     }
 
@@ -467,19 +463,16 @@ class Client implements ClientContract
             case ApiMethod::DIRECT:
             case ApiMethod::WALLET:
 
-                $this->logPostRequest(__FUNCTION__, $apiMethod, $transaction->toArray());
                 return $this->getHttpService()->postTransaction($transaction->toArray());
 
             case ApiMethod::RESPONSIVE_SHARED:
                 $transaction->Payment = ['TotalAmount' => 0];
 
-                $this->logPostRequest(__FUNCTION__, $apiMethod, $transaction->toArray());
                 return $this->getHttpService()->postAccessCodeShared($transaction->toArray());
 
             case ApiMethod::TRANSPARENT_REDIRECT:
                 $transaction->Payment = ['TotalAmount' => 0];
 
-                $this->logPostRequest(__FUNCTION__, $apiMethod, $transaction->toArray());
                 return $this->getHttpService()->postAccessCode($transaction->toArray());
 
             default:
@@ -509,15 +502,12 @@ class Client implements ClientContract
 
         switch ($apiMethod) {
             case ApiMethod::DIRECT:
-                $this->logPostRequest(__FUNCTION__, $apiMethod, $transaction->toArray());
                 return $this->getHttpService()->postTransaction($transaction->toArray());
 
             case ApiMethod::RESPONSIVE_SHARED:
-                $this->logPostRequest(__FUNCTION__, $apiMethod, $transaction->toArray());
                 return $this->getHttpService()->postAccessCodeShared($transaction->toArray());
 
             case ApiMethod::TRANSPARENT_REDIRECT:
-                $this->logPostRequest(__FUNCTION__, $apiMethod, $transaction->toArray());
                 return $this->getHttpService()->postAccessCode($transaction->toArray());
 
             default:
@@ -534,7 +524,6 @@ class Client implements ClientContract
      */
     private function doQueryCustomer($tokenCustomerId)
     {
-        $this->logPostRequest(__FUNCTION__, null, ['TokenCustomerID' => $tokenCustomerId]);
         return $this->getHttpService()->getCustomer($tokenCustomerId);
     }
 
@@ -548,7 +537,6 @@ class Client implements ClientContract
         /** @var Refund $refund */
         $refund = ClassValidator::getInstance('Eway\Rapid\Model\Refund', $refund);
 
-        $this->logPostRequest(__FUNCTION__, null, $refund->toArray());
         return $this->getHttpService()->postTransactionRefund($refund->Refund->TransactionID, $refund->toArray());
     }
 
@@ -566,7 +554,6 @@ class Client implements ClientContract
         /** @var Refund $refund */
         $refund = ClassValidator::getInstance('Eway\Rapid\Model\Refund', $refund);
 
-        $this->logPostRequest(__FUNCTION__, null, $refund->toArray());
         return $this->getHttpService()->postCancelAuthorisation($refund->toArray());
     }
 
@@ -577,7 +564,6 @@ class Client implements ClientContract
      */
     private function doQueryAccessCode($accessCode)
     {
-        $this->logPostRequest(__FUNCTION__, null, ['AccessCode' => $accessCode]);
         return $this->getHttpService()->getAccessCode($accessCode);
     }
 
@@ -828,85 +814,6 @@ class Client implements ClientContract
         if (isset($this->logger) && LogLevel::isValidValue($level)) {
             $this->logger->$level($message);
         }
-    }
-
-    /**
-     * @param $action
-     * @param $method
-     * @param $data
-     * @return void
-     * @throws \Exception
-     */
-    private function logPostRequest($action, $method, $data)
-    {
-        if (isset($this->logger)) {
-            $data = $this->filterCardDetailsData($data);
-            if (null !== $method) {
-                $this->logger->debug(sprintf(
-                    '>>>>>>>>>>>> REQUEST [%s:%s] BODY=%s',
-                    $action,
-                    $method,
-                    json_encode($data)
-                ));
-            } else {
-                $this->logger->debug(sprintf(
-                    '>>>>>>>>>>>> REQUEST [%s] BODY=%s',
-                    $action,
-                    json_encode($data)
-                ));
-            }
-        }
-    }
-    /**
-     * @param $data
-     * @return array
-     * @throws \Exception
-     */
-    private function filterCardDetailsData($data)
-    {
-        if (isset($data['Customer']['CardDetails'])) {
-            $cardDetail = $data['Customer']['CardDetails'];
-            if (isset($cardDetail['Name'])) {
-                $data['Customer']['CardDetails']['Name'] = $this->encryptString($cardDetail['Name']);
-            }
-            if (isset($cardDetail['Number'])) {
-                $data['Customer']['CardDetails']['Number'] = $this->encryptString($cardDetail['Number']);
-            }
-            if (isset($cardDetail['ExpiryMonth'])) {
-                $data['Customer']['CardDetails']['ExpiryMonth'] = $this->encryptString($cardDetail['ExpiryMonth']);
-            }
-            if (isset($cardDetail['ExpiryYear'])) {
-                $data['Customer']['CardDetails']['ExpiryYear'] = $this->encryptString($cardDetail['ExpiryYear']);
-            }
-            if (isset($cardDetail['CVN'])) {
-                $data['Customer']['CardDetails']['CVN'] = $this->encryptString($cardDetail['CVN']);
-            }
-        }
-        return $data;
-    }
-
-
-    /**
-     * @param $string
-     * @return false|string
-     * @throws \Exception
-     */
-    private function encryptString($string)
-    {
-        // Cipher method
-        $ciphering = "BF-CBC";
-
-        // Using OpenSSl encryption method
-        $ivLength = openssl_cipher_iv_length($ciphering);
-        $options   = 0;
-
-        // Using random_bytes() function which gives
-        // randomly 16 digit values
-        $encryptionIv = random_bytes($ivLength);
-
-        $encryptionKey = openssl_digest(php_uname(), 'MD5', true);
-
-        return openssl_encrypt($string, $ciphering, $encryptionKey, $options, $encryptionIv);
     }
 
     #endregion
