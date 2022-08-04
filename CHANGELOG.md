@@ -1,6 +1,8 @@
 # Changelog
 
 All notable changes will be documented in this file
+## 1.4.1
+- Support Apple Pay/ Google Pay Tokenization
 
 ## 1.4.0
  - Update PHP SDK - 3DS 2.0 - Add new error code support

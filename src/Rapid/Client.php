@@ -155,8 +155,8 @@ class Client implements ClientContract
     }
 
     /**
-      * @inheritdoc
-      */
+     * @inheritdoc
+     */
     public function setVersion($version)
     {
         $this->version = $version;
@@ -444,6 +444,8 @@ class Client implements ClientContract
      */
     private function doCreateCustomer($apiMethod, $customer)
     {
+        $paymentInstrument = $customer['PaymentInstrument'] ?? null;
+
         /** @var Customer $customer */
         $customer = ClassValidator::getInstance('Eway\Rapid\Model\Customer', $customer);
 
@@ -452,8 +454,15 @@ class Client implements ClientContract
         $transaction = $this->customerToTransaction($customer);
         $transaction->Method = PaymentMethod::CREATE_TOKEN_CUSTOMER;
 
+        if ($apiMethod == ApiMethod::WALLET && $paymentInstrument) {
+            $transaction->PaymentInstrument = $paymentInstrument;
+            $transaction->Payment = ['TotalAmount' => 0];
+        }
+
         switch ($apiMethod) {
             case ApiMethod::DIRECT:
+            case ApiMethod::WALLET:
+
                 return $this->getHttpService()->postTransaction($transaction->toArray());
 
             case ApiMethod::RESPONSIVE_SHARED:
@@ -694,8 +703,8 @@ class Client implements ClientContract
     {
         $this->removeError(self::ERROR_INVALID_ENDPOINT);
         if (empty($this->endpoint)
-                || strpos($this->endpoint, 'https') !== 0
-                || substr($this->endpoint, -1) != '/') {
+            || strpos($this->endpoint, 'https') !== 0
+            || substr($this->endpoint, -1) != '/') {
             $this->log('error', "Missing or invalid endpoint");
             $this->addError(self::ERROR_INVALID_ENDPOINT, false);
         }

@@ -1,7 +1,7 @@
 {
     "name": "eway/eway-rapid-php",
     "description": "eWAY Rapid PHP library",
-    "version": "1.4.0",
+    "version": "1.4.1",
     "keywords": [
         "eway",
         "rapid",
