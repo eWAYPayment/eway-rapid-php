@@ -15,6 +15,12 @@ class Response implements ResponseInterface
     /** @var int */
     private $statusCode = 200;
 
+    /** var string */
+    private $body;
+
+    /** var string */
+    private $error;
+
     /**
      * @param int    $status Status code for the response, if any.
      * @param string $body   Response body.
