@@ -369,7 +369,7 @@ class Http implements HttpServiceContract
      *
      * @return ResponseInterface
      */
-    private function request($method, $uri, $data = [])
+    protected function request($method, $uri, $data = [])
     {
         $uri = $this->getUri($uri);
 
