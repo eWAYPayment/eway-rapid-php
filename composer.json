@@ -1,7 +1,7 @@
 {
     "name": "eway/eway-rapid-php",
-    "description": "eWAY Rapid PHP library",
-    "version": "1.4.1",
+    "description": "Eway Rapid PHP library",
+    "version": "1.4.2",
     "keywords": [
         "eway",
         "rapid",
@@ -12,7 +12,7 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "eWAY",
+            "name": "Eway",
             "homepage": "https://www.eway.com.au"
         }
     ],
