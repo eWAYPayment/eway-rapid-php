@@ -444,7 +444,7 @@ class Client implements ClientContract
      */
     private function doCreateCustomer($apiMethod, $customer)
     {
-        $paymentInstrument = $customer['PaymentInstrument'] ?? null;
+        $paymentInstrument = isset($customer['PaymentInstrument']) ? $customer['PaymentInstrument'] : null;
 
         /** @var Customer $customer */
         $customer = ClassValidator::getInstance('Eway\Rapid\Model\Customer', $customer);
