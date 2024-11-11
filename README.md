@@ -1,19 +1,18 @@
-# eWAY Rapid PHP Library
+# Eway Rapid PHP Library
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
-[![Build Status][ico-travis]][link-travis]
 
-A PHP library to integrate with eWAY's Rapid Payment API.
+A PHP library to integrate with Eway's Rapid Payment API.
 
-Sign up with eWAY at:
+Sign up with Eway at:
  - Australia:    https://www.eway.com.au/
  - New Zealand:  https://eway.io/nz/
  - UK:           https://eway.io/uk/
  - Hong Kong:    https://eway.io/hk/
  - Malaysia:     https://eway.io/my/
 
-For testing, get a free eWAY Partner account: https://www.eway.com.au/developers
+For testing, get a free Eway Partner account: https://www.eway.com.au/developers
 
 ## Install
 
@@ -21,7 +20,7 @@ This library requires PHP version 5.4.0 or greater, with the curl, json and open
 
 ### Using Composer
 
-The eWAY PHP SDK can be install via [Composer](https://getcomposer.org/) - this is the recommended method
+The Eway PHP SDK can be install via [Composer](https://getcomposer.org/) - this is the recommended method
 
 ```bash
 $ composer require eway/eway-rapid-php
@@ -39,15 +38,15 @@ The eWAY PHP SDK can also be downloaded and added without Composer:
 
 1. Download the [latest zip](https://github.com/eWAYPayment/eway-rapid-php/archive/master.zip) (or `git clone` this repository)
 2. Unzip the zip into your project - for example into a `lib` directory
-3. Include the eWAY SDK:
+3. Include the Eway SDK:
 
-```php 
+```php
 require_once 'lib/eway-rapid-php-master/include_eway.php';
 ```
 
 ## Usage
 
-See the [eWAY Rapid API Reference](https://eway.io/api-v3/?php) for usage details.
+See the [Eway Rapid API Reference](https://eway.io/api-v3/?php) for usage details.
 
 A simple Direct payment:
 
@@ -99,7 +98,5 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [ico-version]: https://img.shields.io/packagist/v/eway/eway-rapid-php.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/eWAYPayment/eway-rapid-php/master.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/eway/eway-rapid-php
-[link-travis]: https://travis-ci.org/eWAYPayment/eway-rapid-php
