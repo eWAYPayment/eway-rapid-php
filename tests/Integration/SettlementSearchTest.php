@@ -24,6 +24,6 @@ class SettlementSearchTest extends AbstractClientTest
         $this->assertInstanceOf(SettlementSearchResponse::getClass(), $response);
         $this->assertTrue(is_array($response->getErrors()));
         $this->assertEmpty($response->getErrors());
-        $this->assertEquals('53e78b14-ac2c-4b1b-a099-a12c6d5f30bc', $response->SettlementSummaries[0]['SettlementID']);
+        $this->assertEquals('8f35c4b6-aca1-4baf-873b-186ca013d3d6', $response->SettlementSummaries[0]['SettlementID']);
     }
 }
