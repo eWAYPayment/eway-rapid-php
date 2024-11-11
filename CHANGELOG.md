@@ -1,6 +1,10 @@
 # Changelog
 
 All notable changes will be documented in this file
+## 1.4.2
+ - Resolves issues with PHP vesion compatability
+ - Added new Rapid response codes
+
 ## 1.4.1
 - Support Apple Pay/ Google Pay Tokenization
 
