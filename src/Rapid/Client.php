@@ -383,7 +383,9 @@ class Client implements ClientContract
             default:
                 // Although right now this code is not reachable, protect against incomplete
                 // changes to ApiMethod
+                // @codeCoverageIgnoreStart
                 throw new MethodNotImplementedException();
+                // @codeCoverageIgnoreEnd
         }
     }
 
@@ -462,17 +464,12 @@ class Client implements ClientContract
         switch ($apiMethod) {
             case ApiMethod::DIRECT:
             case ApiMethod::WALLET:
-
                 return $this->getHttpService()->postTransaction($transaction->toArray());
-
             case ApiMethod::RESPONSIVE_SHARED:
                 $transaction->Payment = ['TotalAmount' => 0];
-
                 return $this->getHttpService()->postAccessCodeShared($transaction->toArray());
-
             case ApiMethod::TRANSPARENT_REDIRECT:
                 $transaction->Payment = ['TotalAmount' => 0];
-
                 return $this->getHttpService()->postAccessCode($transaction->toArray());
 
             default:
@@ -664,16 +661,6 @@ class Client implements ClientContract
     private function isJson($string)
     {
         return is_string($string) && is_object(json_decode($string)) && (json_last_error() == JSON_ERROR_NONE);
-    }
-
-    /**
-     * @return $this
-     */
-    private function emptyErrors()
-    {
-        $this->errors = [];
-
-        return $this;
     }
 
     /**
