@@ -16,7 +16,7 @@ For testing, get a free Eway Partner account: https://www.eway.com.au/developers
 
 ## Install
 
-This library requires PHP version 5.4.0 or greater, with the curl, json and openssl extensions.
+This library requires PHP version 7.4.0 or greater, with the curl, json and openssl extensions.
 
 ### Using Composer
 
@@ -89,7 +89,14 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 Tests are written with [PHPUnit](https://phpunit.de/). They can be run using Composer:
 
 ```bash
-$ composer test
+$ composer run test-unit # Run unit tests
+$ composer run test-integration # Run integration tests 
+```
+
+This library follows PSR2 coding standards, run this command to check:
+
+```bash
+$ composer run phpcs
 ```
 
 ## License

@@ -1,59 +1,49 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Eway\Test\Integration;
 
-use Eway\Rapid\Enum\ApiMethod;
-use Eway\Rapid\Enum\TransactionType;
+use Eway\Rapid\Model\Refund;
 use Eway\Rapid\Model\Response\RefundResponse;
-use Eway\Test\AbstractClientTest;
 
-/**
- * Class RefundTest.
- */
-class RefundTest extends AbstractClientTest
+class RefundTest extends AbstractTestCase
 {
+    /** @var array $responseData */
+    private array $responseData = [
+        'TransactionID' => '12345',
+        'TotalAmount' => 100,
+        'InvoiceNumber' => 'invoice-12345',
+        'InvoiceReference' => '12345',
+        'CurrencyCode' => 'AUD',
+    ];
+
     /**
-     * Test refund a transaction
+     * @dataProvider methodDataProvider
+     * @param string $method
+     * @param $param
+     * @return void
      */
-    public function testRefund()
+    public function testRefund(string $method, $param): void
     {
-        $customer = [
-            'CardDetails' => [
-                'Name' => 'John Smith',
-                'Number' => '4444333322221111',
-                'ExpiryMonth' => '12',
-                'ExpiryYear' => '25',
-                'CVN' => '123',
-            ],
-        ];
+        $this->setUpCurl(200, ['Refund' => $this->responseData]);
+        $response = $this->client->{$method}($param);
 
-        $payment = [
-            'TotalAmount' => 1000,
-        ];
-
-        $transaction = [
-            'Customer' => $customer,
-            'Payment' => $payment,
-            'Capture' => true,
-            'TransactionType' => TransactionType::PURCHASE,
-        ];
-
-        $createTransactionResponse = $this->client->createTransaction(ApiMethod::DIRECT, $transaction);
-
-        $refundDetails = $payment;
-        $refundDetails['TransactionID'] = $createTransactionResponse->TransactionID;
-        $refund = [
-            'Refund' => $refundDetails,
-        ];
-
-        $response = $this->client->refund($refund);
-
-        $this->assertInstanceOf(RefundResponse::getClass(), $response);
-        $this->assertTrue(is_array($response->getErrors()));
+        $this->assertInstanceOf(RefundResponse::class, $response);
+        $this->assertIsArray($response->getErrors());
         $this->assertEmpty($response->getErrors());
-        $this->assertTrue($response->TransactionStatus);
-        foreach ($refundDetails as $key => $value) {
-            $this->assertEquals($value, $response->Refund->$key);
-        }
+        $this->assertEquals($this->responseData, $response->Refund->toArray());
+        $this->assertEquals(json_encode($this->responseData), $response->Refund->__toString());
+    }
+
+    /**
+     * @return array
+     */
+    public function methodDataProvider(): array
+    {
+        return [
+            ['refund', new Refund(['Refund' => ['TransactionID' => '12345']])],
+            ['cancelTransaction', '12345'],
+        ];
     }
 }

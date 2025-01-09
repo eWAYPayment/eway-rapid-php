@@ -5,6 +5,7 @@ namespace Eway\Rapid\Service;
 use Eway\Rapid\Contract\Client;
 use Eway\Rapid\Contract\Http\ResponseInterface;
 use Eway\Rapid\Contract\HttpService as HttpServiceContract;
+use Eway\Rapid\Service\Http\Curl;
 use Eway\Rapid\Service\Http\Response;
 use InvalidArgumentException;
 
@@ -13,6 +14,11 @@ use InvalidArgumentException;
  */
 class Http implements HttpServiceContract
 {
+    /**
+     * @var Curl
+     */
+    private $curl;
+
     /**
      * @var string
      */
@@ -46,12 +52,14 @@ class Http implements HttpServiceContract
      * @param $key
      * @param $password
      * @param $baseUrl
+     * @param $curl
      */
-    public function __construct($key = null, $password = null, $baseUrl = null)
+    public function __construct($key = null, $password = null, $baseUrl = null, $curl = null)
     {
         $this->key = $key;
         $this->password = $password;
         $this->baseUrl = $baseUrl;
+        $this->curl = $curl ?: new Curl();
     }
 
     /**
@@ -381,7 +389,7 @@ class Http implements HttpServiceContract
         // User Agent
         $agent = sprintf("%s %s", Client::NAME, Client::VERSION);
 
-        $ch = curl_init();
+        $this->curl->init();
 
         if (strtoupper($method) === 'GET' && !empty($data)) {
             $queryString = http_build_query($data);
@@ -413,15 +421,14 @@ class Http implements HttpServiceContract
 
         $options[CURLOPT_HTTPHEADER] = $headers;
 
-        curl_setopt_array($ch, $options);
+        $this->curl->setOptions($options);
+        $rawResponse = $this->curl->execute();
 
-        $rawResponse = curl_exec($ch);
+        $statusCode = $this->curl->getInfo(CURLINFO_HTTP_CODE);
+        $headerSize = $this->curl->getInfo(CURLINFO_HEADER_SIZE);
 
-        $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-
-        if (curl_errno($ch)) {
-            $responseError = curl_error($ch);
+        if ($this->curl->getErrorNo()) {
+            $responseError = $this->curl->getError();
             $responseBody = '';
         } else {
             $responseError = '';
@@ -430,7 +437,7 @@ class Http implements HttpServiceContract
 
         $response = new Response($statusCode, $responseBody, $responseError);
 
-        curl_close($ch);
+        $this->curl->close();
 
         return $response;
     }
@@ -469,7 +476,7 @@ class Http implements HttpServiceContract
      */
     private function needsCurlProxyFix()
     {
-        $ver = curl_version();
+        $ver = $this->curl->getVersion();
         $versionNum = $ver['version_number'];
         return $versionNum < self::CURL_NO_QUIRK_VERSION;
     }

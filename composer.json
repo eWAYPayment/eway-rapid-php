@@ -1,7 +1,7 @@
 {
     "name": "eway/eway-rapid-php",
     "description": "Eway Rapid PHP library",
-    "version": "1.4.2",
+    "version": "2.0.0",
     "keywords": [
         "eway",
         "rapid",
@@ -17,16 +17,13 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=7.4.0",
         "ext-curl": "*",
         "ext-json": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.8.*",
-        "phpdocumentor/phpdocumentor": "~2.8",
-        "internations/http-mock": "~0.7",
-        "jeremeamia/superclosure": "1.0.2",
-        "squizlabs/php_codesniffer": "2.*"
+        "phpunit/phpunit": "^9.6",
+        "squizlabs/php_codesniffer": "^3.11"
     },
     "autoload": {
         "psr-4": {
@@ -39,8 +36,8 @@
         }
     },
     "scripts": {
-        "test": "phpunit",
-        "test-it": "phpunit --testsuite integration",
+        "test-unit": "phpunit --testsuite unit --stop-on-failure",
+        "test-integration": "phpunit --testsuite integration --stop-on-failure",
         "phpcs": "vendor/bin/phpcs --standard=PSR2 src"
     }
 }

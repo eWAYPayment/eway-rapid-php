@@ -1,0 +1,75 @@
+name: PHP Quality Checks
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  quality-checks:
+    name: PHP Quality Checks
+    runs-on: ubuntu-24.04
+
+    env:
+      extensions: mbstring, intl, json, curl, xdebug
+      key: vendor
+
+    strategy:
+      matrix:
+        task:
+          - phpcs
+          - unit
+          - integration
+        php-version:
+          - 7.4
+          - 8.0
+          - 8.1
+          - 8.2
+          - 8.3
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup cache environment
+        id: extcache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: ${{ env.extensions }}
+          key: ${{ env.key }}
+
+      - name: Cache extensions
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.key }}
+          restore-keys: ${{ steps.extcache.outputs.key }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: ${{ env.extensions }}
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run PHPUnit - Unit Tests
+        if: matrix.task == 'unit'
+        run: composer run test-unit
+
+      - name: Run PHPUnit - Integration Tests
+        if: matrix.task == 'integration'
+        run: composer run test-unit
+
+      - name: Run PHP Code Sniffer
+        if: matrix.task == 'phpcs'
+        run: composer run phpcs
+
+      - name: Check 100% code coverage
+        if: matrix.task == 'unit' || matrix.task == 'integration'
+        run: php .github/bin/check-coverage.php
