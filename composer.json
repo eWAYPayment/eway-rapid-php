@@ -36,8 +36,8 @@
         }
     },
     "scripts": {
-        "test-unit": "phpunit --testsuite unit",
-        "test-integration": "phpunit --testsuite integration",
+        "test-unit": "phpunit --testsuite unit --stop-on-failure",
+        "test-integration": "phpunit --testsuite integration --stop-on-failure",
         "phpcs": "vendor/bin/phpcs --standard=PSR2 src"
     }
 }

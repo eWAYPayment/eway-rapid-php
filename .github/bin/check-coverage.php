@@ -1,6 +1,6 @@
 <?php
 
-$file = dirname(__DIR__) . '/build/clover.xml';
+$file = dirname(__DIR__, 2) . '/build/clover.xml';
 $xml = new SimpleXMLElement(file_get_contents($file));
 $metrics = $xml->xpath('//metrics');
 
