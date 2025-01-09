@@ -16,7 +16,7 @@ For testing, get a free Eway Partner account: https://www.eway.com.au/developers
 
 ## Install
 
-This library requires PHP version 5.4.0 or greater, with the curl, json and openssl extensions.
+This library requires PHP version 7.4.0 or greater, with the curl, json and openssl extensions.
 
 ### Using Composer
 
