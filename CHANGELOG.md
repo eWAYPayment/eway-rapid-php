@@ -4,6 +4,7 @@ All notable changes will be documented in this file
 ## 2.0.0
 - Update minimum php version support to 7.4 and up
 - Update PHPUnit's unit and integration tests - achieve 100% code coverage
+- Move curl_* functions to `src/Rapid/Service/Http/Curl.php` file
 
 ## 1.4.2
  - Resolves issues with PHP vesion compatability

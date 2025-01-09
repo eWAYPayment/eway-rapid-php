@@ -89,7 +89,14 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 Tests are written with [PHPUnit](https://phpunit.de/). They can be run using Composer:
 
 ```bash
-$ composer test
+$ composer run test-unit # Run unit tests
+$ composer run test-integration # Run integration tests 
+```
+
+This library follows PSR2 coding standards, run this command to check:
+
+```bash
+$ composer run phpcs
 ```
 
 ## License

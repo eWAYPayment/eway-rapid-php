@@ -69,3 +69,7 @@ jobs:
       - name: Run PHP Code Sniffer
         if: matrix.task == 'phpcs'
         run: composer run phpcs
+
+      - name: Check 100% code coverage
+        if: matrix.task == 'unit' || matrix.task == 'integration'
+        run: php .github/bin/check-coverage.php

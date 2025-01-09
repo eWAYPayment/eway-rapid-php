@@ -20,6 +20,7 @@
         </include>
         <report>
             <html outputDirectory="build/coverage"/>
+            <clover outputFile="build/clover.xml"/>
         </report>
     </coverage>
     <php>
