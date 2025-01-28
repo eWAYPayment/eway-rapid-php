@@ -132,7 +132,7 @@ trait HasAttributesTrait
         $attributes = $this->attributes;
 
         foreach ($attributes as $key => $value) {
-            $attributes[$key] = $this->_toArrayRecursive($value);
+            $attributes[$key] = $this->toArrayRecursive($value);
         }
 
         return $attributes;
@@ -196,7 +196,7 @@ trait HasAttributesTrait
             return $this->attributes[$key];
         }
 
-        trigger_error(sprintf("Undefined property '%s' in class '%s'", $key, get_called_class()), E_USER_NOTICE);
+        @trigger_error(sprintf("Undefined property '%s' in class '%s'", $key, get_called_class()), E_USER_NOTICE);
 
         return null;
     }
@@ -218,11 +218,11 @@ trait HasAttributesTrait
      *
      * @return array
      */
-    private function _toArrayRecursive($subject)
+    private function toArrayRecursive($subject)
     {
         if (is_array($subject)) {
             foreach ($subject as $key => $value) {
-                $subject[$key] = $this->_toArrayRecursive($value);
+                $subject[$key] = $this->toArrayRecursive($value);
             }
 
             return $subject;

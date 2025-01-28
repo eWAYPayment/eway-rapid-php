@@ -9,6 +9,8 @@ use Eway\Rapid\Model\Response\CreateTransactionResponse;
 use Eway\Rapid\Model\Response\QueryCustomerResponse;
 use Eway\Rapid\Model\Response\QueryTransactionResponse;
 use Eway\Rapid\Model\Response\RefundResponse;
+use Eway\Rapid\Model\Response\SettlementSearchResponse;
+use Eway\Rapid\Model\SettlementSearch;
 use Eway\Rapid\Model\Transaction;
 
 /**
