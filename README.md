@@ -1,5 +1,6 @@
 # Eway Rapid PHP Library
 
+[![Github Workflows][ico-workflow]][link-workflow]
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
 
@@ -12,7 +13,7 @@ Sign up with Eway at:
  - Hong Kong:    https://eway.io/hk/
  - Malaysia:     https://eway.io/my/
 
-For testing, get a free Eway Partner account: https://www.eway.com.au/developers
+For testing, get a free Eway Partner account: https://www.eway.com.au/partner-program/
 
 ## Install
 
@@ -90,7 +91,7 @@ Tests are written with [PHPUnit](https://phpunit.de/). They can be run using Com
 
 ```bash
 $ composer run test-unit # Run unit tests
-$ composer run test-integration # Run integration tests 
+$ composer run test-integration # Run integration tests
 ```
 
 This library follows PSR2 coding standards, run this command to check:
@@ -103,7 +104,9 @@ $ composer run phpcs
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
+[ico-workflow]: https://github.com/eWAYPayment/eway-rapid-php/actions/workflows/phpunit.yml/badge.svg
 [ico-version]: https://img.shields.io/packagist/v/eway/eway-rapid-php.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 
+[link-workflow]: https://github.com/eWAYPayment/eway-rapid-php/actions
 [link-packagist]: https://packagist.org/packages/eway/eway-rapid-php
