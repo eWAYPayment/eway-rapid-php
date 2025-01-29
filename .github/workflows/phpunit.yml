@@ -29,6 +29,10 @@ jobs:
           - 8.1
           - 8.2
           - 8.3
+        api-version:
+          - 31
+          - 40
+          - 47
 
     steps:
       - name: Checkout
@@ -60,10 +64,14 @@ jobs:
 
       - name: Run PHPUnit - Unit Tests
         if: matrix.task == 'unit'
+        env:
+          EWAY_API_VERSION: ${{ matrix.api-version }}
         run: composer run test-unit
 
       - name: Run PHPUnit - Integration Tests
         if: matrix.task == 'integration'
+        env:
+          EWAY_API_VERSION: ${{ matrix.api-version }}
         run: composer run test-unit
 
       - name: Run PHP Code Sniffer
