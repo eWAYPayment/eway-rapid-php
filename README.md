@@ -35,7 +35,7 @@ require_once 'vendor/autoload.php';
 
 ### Manual
 
-The eWAY PHP SDK can also be downloaded and added without Composer:
+The Eway PHP SDK can also be downloaded and added without Composer:
 
 1. Download the [latest zip](https://github.com/eWAYPayment/eway-rapid-php/archive/master.zip) (or `git clone` this repository)
 2. Unzip the zip into your project - for example into a `lib` directory
