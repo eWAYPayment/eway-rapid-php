@@ -1,6 +1,7 @@
 name: PHP Quality Checks
 
 on:
+  workflow_dispatch: {}
   push:
     branches:
       - master
@@ -8,27 +9,67 @@ on:
     branches:
       - master
 
+env:
+  extensions: mbstring, intl, json, curl, xdebug
+  key: vendor
+
 jobs:
-  quality-checks:
-    name: PHP Quality Checks
+  php-cs:
+    name: PHP CodeSniffer
     runs-on: ubuntu-24.04
 
-    env:
-      extensions: mbstring, intl, json, curl, xdebug
-      key: vendor
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: ${{ env.extensions }}
+          tools: phpcs
+
+      - name: Run PHP Code Sniffer
+        run: phpcs --standard=PSR2 src
+
+  phpstan:
+    name: PHP Static Analysis
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: ${{ env.extensions }}
+          tools: phpstan
+
+      - name: Run PHPStan
+        run: phpstan analyse src --error-format=github
+
+  tests:
+    name: PHP ${{ matrix.task }} tests (php=${{ matrix.php-version }}, api=${{ matrix.api-version }})
+    runs-on: ubuntu-24.04
 
     strategy:
       matrix:
         task:
-          - phpcs
           - unit
           - integration
         php-version:
-          - 7.4
-          - 8.0
-          - 8.1
-          - 8.2
-          - 8.3
+          - '7.4'
+          - '8.0'
+          - '8.1'
+          - '8.2'
+          - '8.3'
+          - '8.4'
+        api-version:
+          - '31'
+          - '40'
+          - '47'
 
     steps:
       - name: Checkout
@@ -38,7 +79,7 @@ jobs:
         id: extcache
         uses: shivammathur/cache-extensions@v1
         with:
-          php-version: ${{ matrix.php-versions }}
+          php-version: ${{ matrix.php-version }}
           extensions: ${{ env.extensions }}
           key: ${{ env.key }}
 
@@ -52,24 +93,34 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
+          php-version: ${{ matrix.php-version }}
           extensions: ${{ env.extensions }}
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
       - name: Run PHPUnit - Unit Tests
         if: matrix.task == 'unit'
+        env:
+          EWAY_API_VERSION: ${{ matrix.api-version }}
         run: composer run test-unit
 
       - name: Run PHPUnit - Integration Tests
         if: matrix.task == 'integration'
-        run: composer run test-unit
-
-      - name: Run PHP Code Sniffer
-        if: matrix.task == 'phpcs'
-        run: composer run phpcs
+        env:
+          EWAY_API_VERSION: ${{ matrix.api-version }}
+        run: composer run test-integration
 
       - name: Check 100% code coverage
-        if: matrix.task == 'unit' || matrix.task == 'integration'
         run: php .github/bin/check-coverage.php

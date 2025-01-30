@@ -5,6 +5,7 @@ namespace Eway\Rapid\Model;
 /**
  * Class CardDetails.
  *
+ * @property string $CardType    A two digit code to identify the card type
  * @property string $Name        Name on the card
  * @property string $Number      Credit card number (16-21 digits plaintext, Up to 512 chars for eCrypted values)
  * @property string $ExpiryMonth 2 Digits
@@ -18,6 +19,7 @@ namespace Eway\Rapid\Model;
 class CardDetails extends AbstractModel
 {
     protected $fillable = [
+        'CardType',
         'Name',
         'Number',
         'ExpiryMonth',
