@@ -22,5 +22,17 @@ class RefundDetails extends AbstractModel
         'InvoiceDescription',
         'InvoiceReference',
         'CurrencyCode',
+        'AuthorisationID',
+    	'STAN',
+    	'ReceiptId',
+    	'Receipt',
+    	'ResponseCode',
+    	'ResponseText',
+    	'MerchantID',
+    	'TerminalID',
+    	'PosReference',
+    	'SettlementDate',
+    	'ReceiptGUID',
+    	'MposDeviceId'
     ];
 }
